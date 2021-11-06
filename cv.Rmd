@@ -1,0 +1,126 @@
+---
+title: "Resume"
+date: "`r Sys.Date()`"
+output:
+  pagedown::html_resume:
+    # set it to true for a self-contained HTML page but it'll take longer to render
+    self_contained: false
+# uncomment this line to produce HTML and PDF in RStudio:
+knit: pagedown::chrome_print
+params:
+  CV_name: "Javier Elio"
+  data_path: "CV_data.xlsx"
+---
+
+```{r, setup, include=FALSE}
+knitr::opts_chunk$set(
+  results = 'asis', 
+  echo = FALSE,
+  message = FALSE
+)
+
+library(tidyverse)
+library(readxl)
+source("cv_printing_functions.R")
+
+# Read data (from csv)
+data_path <- params$data_path
+CV <- create_CV_object(data_path)
+CV_name <- params$CV_name
+  
+```
+
+```{css}
+
+.skill-bar {
+  color: white;
+  padding: 0.1rem 0.25rem;
+  margin-top: 3px;
+  position: relative;
+  width: 100%;
+}
+
+```
+
+Aside
+================================================================================
+
+Contact Info {#contact}
+--------------------------------------------------------------------------------
+
+```{r contact_info}
+
+CV %>% print_contact_info()
+
+```
+
+Software {#software}
+--------------------------------------------------------------------------------
+
+```{r software}
+
+CV %>% print_skill_bars()
+
+```
+
+Languages {#languages}
+--------------------------------------------------------------------------------
+
+```{r languages}
+
+CV %>% print_languages()
+
+```
+
+Main
+================================================================================
+
+`r CV_name` {#title}
+--------------------------------------------------------------------------------
+
+I am an engineer with 10+ years of research and teaching experience, with a solid background in statistics, spatial data analysis, and modelling. My main research area is environmental science, with a particular interest in natural hazards and climate change.
+
+
+Education {data-icon=graduation-cap data-concise=true}
+--------------------------------------------------------------------------------
+
+```{r education}
+
+CV %>% print_section("education")
+
+```
+
+Employment {data-icon=suitcase}
+--------------------------------------------------------------------------------
+
+```{r employment}
+
+CV %>% print_section("employment")
+
+```
+
+Teaching Experience {data-icon=chalkboard-teacher}
+--------------------------------------------------------------------------------
+
+```{r teaching}
+
+CV %>% print_section("teaching")
+
+```
+
+
+Selected Publications {data-icon=file}
+--------------------------------------------------------------------------------
+
+```{r publications}
+
+CV %>% print_publications()
+
+```
+
+Disclaimer {#disclaimer style="width: var(--sidebar-width); padding-left: var(--sidebar-horizontal-padding);"}
+--------------------------------------------------------------------------------
+
+This resume was made with the R package [**pagedown**](https://github.com/rstudio/pagedown).
+
+Last updated on `r Sys.Date()`.
