@@ -5,6 +5,8 @@ source("render_cv.R")
 
 ui <- fluidPage(
   
+  downloadButton("downloadData", "Download excel template"),
+  
   textInput("name", "Add your name"),
   
   fileInput("upload", "Upload CV data", accept = c(".xlsx")),
@@ -38,7 +40,16 @@ server <- function(input, output, session) {
     )
   )
   
+  # Downloadable excel template for CV inputs ----
+  url_template <- "https://github.com/javiereliomedina/cv_app/blob/main/CV_data.xlsx?raw=true"
+  
+  output$downloadData <- downloadHandler(
+    filename <- "cv_data_template.xlsx",
+    content <- function(file) {
+      httr::GET(url_template, httr::write_disk(path = file))
+    }
+  )
+  
 }
 
 shinyApp(ui, server)
-
