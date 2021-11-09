@@ -88,7 +88,7 @@ server <- function(input, output, session) {
     req(input$upload)
   })
   
-  roots <- c(wd ='C:')
+  roots <- c(wd = '.')
   
   shinyDirChoose(input, 'folder', roots = roots, filetypes=c('', 'txt'))
   
