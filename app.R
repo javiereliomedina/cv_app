@@ -2,7 +2,7 @@ library(shiny)
 library(shinyFiles)
 library(bslib)
 
-source("render_cv.R")
+source("render_cv.r")
 
 ui <- fluidPage(
   
