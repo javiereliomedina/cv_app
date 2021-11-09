@@ -1,0 +1,13 @@
+name: cv_app
+title: cv_app
+username:
+account: javierelio
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 5076525
+bundleId: 5231025
+url: https://javierelio.shinyapps.io/cv_app/
+when: 1636447122.85487
+lastSyncTime: 1636447122.85487
+asMultiple: FALSE
+asStatic: FALSE
