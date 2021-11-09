@@ -1,6 +1,8 @@
 library(shiny)
 library(shinyFiles)
 library(bslib)
+library(promises)
+library(shinybusy)
 
 source("render_cv.r")
 
@@ -57,14 +59,10 @@ ui <- fluidPage(
            
            fileInput("upload", "Upload an excel file with your data", accept = c(".xlsx")),
            
-           p("You would also need to select the folder where your CV will be saved."),
-           shinyDirButton('folder', 'Select a folder', 'Please select a folder', FALSE),
-           
-           br(),
-           br(),
            p("Now you can build your CV as pdf, it should be something similar to mine!!"),
            
-           actionButton("build_cv", "Build CV")  
+           actionButton("buildPDF", "Build PDF document"),
+           uiOutput("downloadBtn")  
            
     ),
     
@@ -88,16 +86,10 @@ server <- function(input, output, session) {
     req(input$upload)
   })
   
-  roots <- getVolumes()()
-  
-  shinyDirChoose(input, 'folder', roots = roots, )
-  
-  output$download_cv <- renderUI(
-    render_cv(name_input = name(),
-              path_input = input$upload$datapath,
-              path_output = parseDirPath(roots, input$folder)
-    )
-  )
+  # output$download_cv <- renderUI(
+  #   render_cv(name_input = name(),
+  #             path_input = input$upload$datapath)
+  # )
   
   # Downloadable excel template for CV inputs ----
   url_template <- "https://github.com/javiereliomedina/cv_app/blob/main/CV_data.xlsx?raw=true"
@@ -108,6 +100,58 @@ server <- function(input, output, session) {
       httr::GET(url_template, httr::write_disk(path = file))
     }
   )
+  
+  # Build CV ----
+  observeEvent(input$buildPDF, {
+    output$downloadBtn <- renderUI({
+      name_input <- input$name
+      path_input <- input$upload$datapath
+      # add a spinner which blocks the UI
+      show_modal_spinner()
+      # launch the PDF file generation
+      pagedown::chrome_print(
+        rmarkdown::render("cv.rmd", params = list(cv_name = name_input,
+                                                  data_path = path_input)),
+        output = tempfile(fileext = ".pdf"),
+        extra_args = chrome_extra_args(),
+        verbose = 1,
+        async = TRUE # returns a promise
+      )$then(
+        onFulfilled = function(value) {
+          showNotification(
+            paste("PDF file succesfully generated"),
+            type = "message"
+          )
+          output$downloadPDF <- downloadHandler(
+            filename = function() {
+              "cv.pdf"
+            },
+            content = function(file) {
+              file.copy(value, file)
+            },
+            contentType = "application/pdf"
+          )
+          # return a download button
+          downloadButton("downloadPDF", paste("Download", "CV"))
+        },
+        onRejected = function(error) {
+          showNotification(
+            error$message,
+            duration = NULL,
+            type = "error"
+          )
+          HTML("")
+        }
+      )$finally(remove_modal_spinner)
+    })
+  })
+  
+  observeEvent("cv", {
+    output$downloadBtn <- renderUI(HTML(""))
+  })
+
+  
+  
   
 }
 
