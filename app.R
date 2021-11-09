@@ -1,21 +1,80 @@
 library(shiny)
 library(shinyFiles)
+library(bslib)
 
 source("render_cv.R")
 
 ui <- fluidPage(
   
-  downloadButton("downloadData", "Download excel template"),
+  titlePanel("Build an academic CV from excel file"),
   
-  textInput("name", "Add your name"),
+  p("In my process of learning Shiny I have created this app for building an
+    academic CV from an excel file. It uses the CV template of",
+    a("pagedown", href = "https://github.com/rstudio/pagedown.git"),
+    "and it is inspired on the",
+    a("datadrivencv", href = "https://github.com/nstrayer/datadrivencv"), 
+    "package."
+  ),
   
-  fileInput("upload", "Upload CV data", accept = c(".xlsx")),
   
-  shinyDirButton('folder', 'Select a folder', 'Please select a folder', FALSE),
+  sidebarPanel(
+    
+    h1("Download excel template"), 
+    
+    p("You would need to create an excel file with all the information you would
+      like to put in your CV. The file should have six sheets:"),
+    
+    p("- ", strong("contact_info:"),"your contact information."),
+    
+    p("- ", strong("text_blocks:"), "text with a summary of your CV."),
+    
+    p("- ", strong("entries_data:"), "information about your education,
+      employments and teaching activities."),
+    
+    p("- ", strong("software:"), "software skills."),
+    
+    p("- ", strong("publications:"), "list of articles you have written."),
+    
+    p("- ", strong("languages:"), "language skills."),
+    
+    br(),
+    
+    p("You may download a template in the following link:"),  
+    
+    downloadButton("downloadData", "Download")
+    
+  ),
   
-  actionButton("build_cv", "Build CV"),
-  
-  uiOutput("download_cv")
+  mainPanel( 
+    
+    h1("Create CV"),
+    
+    column(4, 
+           
+           uiOutput("download_cv"),
+           
+           textInput("name", "Add your name"),
+           
+           fileInput("upload", "Upload an excel file with your data", accept = c(".xlsx")),
+           
+           p("You would also need to select the folder where your CV will be saved."),
+           shinyDirButton('folder', 'Select a folder', 'Please select a folder', FALSE),
+           
+           br(),
+           br(),
+           p("Now you can build your CV as pdf, it should be something similar to mine!!"),
+           
+           actionButton("build_cv", "Build CV")  
+           
+    ),
+    
+    column(8, 
+           
+           img(src = "img_cv.png", height = 600, width = 550)
+           
+    )
+    
+  )
   
 )
 
