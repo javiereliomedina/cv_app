@@ -88,9 +88,9 @@ server <- function(input, output, session) {
     req(input$upload)
   })
   
-  roots <- c(wd = '.')
+  roots <- getVolumes()()
   
-  shinyDirChoose(input, 'folder', roots = roots, filetypes=c('', 'txt'))
+  shinyDirChoose(input, 'folder', roots = roots, )
   
   output$download_cv <- renderUI(
     render_cv(name_input = name(),
