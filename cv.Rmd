@@ -8,8 +8,8 @@ output:
 # uncomment this line to produce HTML and PDF in RStudio:
 knit: pagedown::chrome_print
 params:
-  CV_name: "Javier Elio"
-  data_path: "CV_data.xlsx"
+  cv_name: "Javier Elio"
+  data_path: "cv_data.xlsx"
 ---
 
 ```{r, setup, include=FALSE}
@@ -25,8 +25,8 @@ source("cv_printing_functions.R")
 
 # Read data (from csv)
 data_path <- params$data_path
-CV <- create_CV_object(data_path)
-CV_name <- params$CV_name
+cv <- create_cv_object(data_path)
+cv_name <- params$cv_name
   
 ```
 
@@ -50,7 +50,7 @@ Contact Info {#contact}
 
 ```{r contact_info}
 
-CV %>% print_contact_info()
+cv %>% print_contact_info()
 
 ```
 
@@ -59,7 +59,7 @@ Software {#software}
 
 ```{r software}
 
-CV %>% print_skill_bars()
+cv %>% print_skill_bars()
 
 ```
 
@@ -68,14 +68,14 @@ Languages {#languages}
 
 ```{r languages}
 
-CV %>% print_languages()
+cv %>% print_languages()
 
 ```
 
 Main
 ================================================================================
 
-`r CV_name` {#title}
+`r cv_name` {#title}
 --------------------------------------------------------------------------------
 
 I am an engineer with 10+ years of research and teaching experience, with a solid background in statistics, spatial data analysis, and modelling. My main research area is environmental science, with a particular interest in natural hazards and climate change.
@@ -86,7 +86,7 @@ Education {data-icon=graduation-cap data-concise=true}
 
 ```{r education}
 
-CV %>% print_section("education")
+cv %>% print_section("education")
 
 ```
 
@@ -95,7 +95,7 @@ Employment {data-icon=suitcase}
 
 ```{r employment}
 
-CV %>% print_section("employment")
+cv %>% print_section("employment")
 
 ```
 
@@ -104,7 +104,7 @@ Teaching Experience {data-icon=chalkboard-teacher}
 
 ```{r teaching}
 
-CV %>% print_section("teaching")
+cv %>% print_section("teaching")
 
 ```
 
@@ -114,7 +114,7 @@ Selected Publications {data-icon=file}
 
 ```{r publications}
 
-CV %>% print_publications()
+cv %>% print_publications()
 
 ```
 

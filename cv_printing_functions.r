@@ -3,18 +3,7 @@
 
 
 #' Create a CV_Printer object.
-#'
-#' @param data_location Path of the spreadsheets holding all your data. This can be
-#'   either a URL to a google sheet with multiple sheets containing the four
-#'   data types or a path to a folder containing four `.csv`s with the neccesary
-#'   data.
-#' @param source_location Where is the code to build your CV hosted?
-#' @param pdf_mode Is the output being rendered into a pdf? Aka do links need
-#'   to be stripped?
-#' @param sheet_is_publicly_readable If you're using google sheets for data,
-#'   is the sheet publicly available? (Makes authorization easier.)
-#' @return A new `CV_Printer` object.
-create_CV_object <-  function(data_path) {
+create_cv_object <-  function(data_path) {
 
   # Read data from excel
   cv <- data_path %>% 
