@@ -8,20 +8,25 @@ source("render_cv.r")
 
 ui <- fluidPage(
   
-  titlePanel("Build an academic CV from excel file"),
+  titlePanel("Build an academic CV"),
   
   p("In my process of learning Shiny I have created this app for building an
     academic CV from an excel file. It uses the CV template of",
-    a("pagedown", href = "https://github.com/rstudio/pagedown.git"),
+    a("pagedown,", href = "https://github.com/rstudio/pagedown.git"),
     "and it is inspired on the",
-    a("datadrivencv", href = "https://github.com/nstrayer/datadrivencv"), 
-    "package."
+    a("datadrivencv", href = "https://github.com/nstrayer/datadrivencv"),
+    "package and a demo shiny app developed by",
+    a("Romain Lesur.", href = "https://github.com/RLesur/chrome_print_shiny.git"),
+    "If you use it, please let me know what you think on my",
+    a("twitter", href = "https://twitter.com/Elio_Javi"),
+    "or",
+    a("linkedin", href = "https://www.linkedin.com/in/javiereliomedina/"),
+    "pages."
   ),
-  
   
   sidebarPanel(
     
-    h1("Download excel template"), 
+    h1("Download Excel template"), 
     
     p("You would need to create an excel file with all the information you would
       like to put in your CV. The file should have six sheets:"),
@@ -57,9 +62,12 @@ ui <- fluidPage(
            
            textInput("name", "Add your name"),
            
-           fileInput("upload", "Upload an excel file with your data", accept = c(".xlsx")),
+           fileInput("upload", "Upload the excel file with your data", accept = c(".xlsx")),
            
-           p("Now you can build your CV as pdf, it should be something similar to mine!!"),
+           p("Now you can build your CV. If everything works fine, you would get
+             a message indicating that the PDF has been generated and a download
+             button would appear to save it. It should be something similar to mine!!"
+           ),
            
            actionButton("buildPDF", "Build PDF document"),
            uiOutput("downloadBtn")  
@@ -119,7 +127,7 @@ server <- function(input, output, session) {
       )$then(
         onFulfilled = function(value) {
           showNotification(
-            paste("PDF file succesfully generated"),
+            paste("PDF file successfully generated"),
             type = "message"
           )
           output$downloadPDF <- downloadHandler(
