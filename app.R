@@ -94,11 +94,6 @@ server <- function(input, output, session) {
     req(input$upload)
   })
   
-  # output$download_cv <- renderUI(
-  #   render_cv(name_input = name(),
-  #             path_input = input$upload$datapath)
-  # )
-  
   # Downloadable excel template for CV inputs ----
   url_template <- "https://github.com/javiereliomedina/cv_app/blob/main/CV_data.xlsx?raw=true"
   
@@ -117,13 +112,8 @@ server <- function(input, output, session) {
       # add a spinner which blocks the UI
       show_modal_spinner()
       # launch the PDF file generation
-      pagedown::chrome_print(
-        rmarkdown::render("cv.rmd", params = list(cv_name = name_input,
-                                                  data_path = path_input)),
-        output = tempfile(fileext = ".pdf"),
-        extra_args = chrome_extra_args(),
-        verbose = 1,
-        async = TRUE # returns a promise
+      render_cv(name_input = name_input,
+                path_input = path_input
       )$then(
         onFulfilled = function(value) {
           showNotification(
@@ -158,9 +148,6 @@ server <- function(input, output, session) {
     output$downloadBtn <- renderUI(HTML(""))
   })
 
-  
-  
-  
 }
 
 shinyApp(ui, server)
