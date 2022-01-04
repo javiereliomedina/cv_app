@@ -10,7 +10,7 @@ ui <- fluidPage(
   
   titlePanel("Build an academic CV"),
   
-  p("In my process of learning Shiny I have created this app for building an
+  p("I have created this app for building an
     academic CV from an excel file. It uses the CV template of",
     a("pagedown,", href = "https://github.com/rstudio/pagedown.git"),
     "and it is inspired on the",
