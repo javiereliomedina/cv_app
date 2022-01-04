@@ -78,8 +78,11 @@ Main
 `r cv_name` {#title}
 --------------------------------------------------------------------------------
 
-I am an engineer with 10+ years of research and teaching experience, with a solid background in statistics, spatial data analysis, and modelling. My main research area is environmental science, with a particular interest in natural hazards and climate change.
+```{r text-block}
 
+cv %>% print_text_block("intro")
+
+```
 
 Education {data-icon=graduation-cap data-concise=true}
 --------------------------------------------------------------------------------

@@ -137,14 +137,8 @@ print_languages <- function(cv){
 #' @param label ID of the text block to print as encoded in `label` column of `text_blocks` table.
 print_text_block <- function(cv, label){
   text_block <- dplyr::filter(cv$text_blocks, loc == label) %>%
-    dplyr::pull(text)
-
-  strip_res <- sanitize_links(cv, text_block)
-
-  cat(strip_res$text)
-
-  invisible(strip_res$cv)
-  
+    dplyr::pull(text) %>% 
+    cat()
 }
 
 
@@ -165,6 +159,7 @@ print_skill_bars <- function(cv,
                                       {bar_background} {width_percent}% 100%)\"
 >{skill}</div>"
   }
+  
   cv$software %>%
     dplyr::mutate(width_percent = round(100*as.numeric(level)/out_of)) %>%
     glue::glue_data(glue_template) %>%
@@ -200,10 +195,9 @@ Links {data-icon=link}
 
 #' @description Contact information section with icons
 print_contact_info <- function(cv){
-  glue::glue_data(
-    cv$contact_info,
-    "- <i class='fa fa-{icon}'></i> {contact}"
-  ) %>% print()
+  glue::glue_data(cv$contact_info, 
+                  "- <i class='fa fa-{icon}'></i> {contact}") %>%
+    print()
 
   invisible(cv)
 }
