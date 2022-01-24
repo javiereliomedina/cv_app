@@ -64,14 +64,21 @@ ui <- fluidPage(
            
            fileInput("upload", "Upload the excel file with your data", accept = c(".xlsx")),
            
+           p("Select the sections you would like to add into your CV"), 
+           checkboxInput("summary",     "CV summary"  , TRUE),
+           checkboxInput("education",   "Education"   , TRUE),
+           checkboxInput("employment",  "Employment"  , TRUE),
+           checkboxInput("teaching",    "Teaching"    , TRUE),
+           checkboxInput("publication", "Publications", TRUE),
+           
            p("Now you can build your CV. If everything works fine, you would get
              a message indicating that the PDF has been generated and a download
              button would appear to save it. It should be something similar to mine!!"
            ),
            
            actionButton("buildPDF", "Build PDF document"),
-           uiOutput("downloadBtn")  
-           
+           uiOutput("downloadBtn")
+          
     ),
     
     column(8, 
@@ -94,6 +101,12 @@ server <- function(input, output, session) {
     req(input$upload)
   })
   
+  eval_text <- eventReactive(input$build_cv, { req(input$summary) })
+  eval_edu  <- eventReactive(input$build_cv, { req(input$education) })
+  eval_emp  <- eventReactive(input$build_cv, { req(input$employment) })
+  eval_tea  <- eventReactive(input$build_cv, { req(input$teaching) })
+  eval_pub  <- eventReactive(input$build_cv, { req(input$publication) })
+  
   # Downloadable excel template for CV inputs ----
   url_template <- "https://github.com/javiereliomedina/cv_app/blob/main/CV_data.xlsx?raw=true"
   
@@ -109,11 +122,21 @@ server <- function(input, output, session) {
     output$downloadBtn <- renderUI({
       name_input <- input$name
       path_input <- input$upload$datapath
+      eval_text  <- input$summary
+      eval_edu   <- input$education
+      eval_emp   <- input$employment
+      eval_tea   <- input$teaching
+      eval_pub   <- input$publication
       # add a spinner which blocks the UI
       show_modal_spinner()
       # launch the PDF file generation
       render_cv(name_input = name_input,
-                path_input = path_input
+                path_input = path_input,
+                eval_text = eval_text,
+                eval_edu = eval_edu,
+                eval_emp = eval_emp,
+                eval_tea = eval_tea,
+                eval_pub = eval_pub
       )$then(
         onFulfilled = function(value) {
           showNotification(

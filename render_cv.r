@@ -22,12 +22,25 @@ chrome_extra_args <- function(default_args = c("--disable-gpu")) {
 #' render pdf document
 #' @param name_input Name of the CV
 #' @param path_input Path to the excel file with the CV data
+#' @param eval_***   Sections to include into the CV
 
-render_cv <- function(name_input, path_input) {
+render_cv <- function(name_input,
+                      path_input,
+                      eval_text,
+                      eval_edu,
+                      eval_emp,
+                      eval_tea,
+                      eval_pub) {
   
   input <- rmarkdown::render("cv.rmd",
                              params = list(cv_name = name_input,
-                                           data_path = path_input))
+                                           data_path = path_input,
+                                           summary = eval_text,
+                                           education = eval_edu,
+                                           employment = eval_emp,
+                                           teaching = eval_tea,
+                                           publications = eval_pub
+                                           ))
   pagedown::chrome_print(input = input,
                          output = tempfile(fileext = ".pdf"),
                          extra_args = chrome_extra_args(),
@@ -35,4 +48,3 @@ render_cv <- function(name_input, path_input) {
                          async = TRUE # returns a promise
   )
 }
-

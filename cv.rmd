@@ -10,6 +10,12 @@ knit: pagedown::chrome_print
 params:
   cv_name: "Javier Elio"
   data_path: "cv_data.xlsx"
+  summary: TRUE
+  education: TRUE
+  employment: TRUE
+  teaching: TRUE
+  publications: TRUE
+  
 ---
 
 ```{r, setup, include=FALSE}
@@ -27,7 +33,14 @@ source("cv_printing_functions.r")
 data_path <- params$data_path
 cv <- create_cv_object(data_path)
 cv_name <- params$cv_name
-  
+
+# Print sections if TRUE
+eval_text <- params$summary
+eval_edu  <- params$education
+eval_emp  <- params$employment
+eval_tea  <- params$teaching
+eval_pub  <- params$publications
+
 ```
 
 ```{css}
@@ -78,44 +91,59 @@ Main
 `r cv_name` {#title}
 --------------------------------------------------------------------------------
 
-```{r text-block}
+```{r text-block, eval = eval_text}
 
 cv %>% print_text_block("intro")
 
 ```
 
-Education {data-icon=graduation-cap data-concise=true}
---------------------------------------------------------------------------------
+```{r edu-heading, eval = eval_edu} 
 
-```{r education}
+cat("Education {data-icon=graduation-cap data-concise=true}
+--------------------------------------------------------------------------------") 
+
+``` 
+
+```{r edu, eval = eval_edu}
 
 cv %>% print_section("education")
 
 ```
 
-Employment {data-icon=suitcase}
---------------------------------------------------------------------------------
+```{r emp-heading, eval = eval_emp} 
 
-```{r employment}
+cat("Employment {data-icon=suitcase}
+--------------------------------------------------------------------------------") 
+
+``` 
+
+```{r employment, eval = eval_emp}
 
 cv %>% print_section("employment")
 
 ```
 
-Teaching Experience {data-icon=chalkboard-teacher}
---------------------------------------------------------------------------------
+```{r teaching-heading, eval = eval_tea} 
 
-```{r teaching}
+cat("Teaching Experience {data-icon=chalkboard-teacher}
+--------------------------------------------------------------------------------") 
+
+```
+
+```{r teaching, eval = eval_tea}
 
 cv %>% print_section("teaching")
 
 ```
 
+```{r pub-heading, eval = eval_pub} 
 
-Selected Publications {data-icon=file}
---------------------------------------------------------------------------------
+cat("Selected Publications {data-icon=file}
+--------------------------------------------------------------------------------") 
 
-```{r publications}
+```
+
+```{r publications, eval = eval_pub}
 
 cv %>% print_publications()
 
