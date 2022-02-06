@@ -67,6 +67,7 @@ ui <- fluidPage(
            p("Select the sections you would like to add into your CV"), 
            checkboxInput("summary",     "CV summary",   TRUE),
            checkboxInput("software",    "Software",     TRUE),
+           checkboxInput("languages",   "Languages",    TRUE),
            checkboxInput("education",   "Education",    TRUE),
            checkboxInput("employment",  "Employment",   TRUE),
            checkboxInput("teaching",    "Teaching",     TRUE),
@@ -104,6 +105,7 @@ server <- function(input, output, session) {
   
   eval_text <- eventReactive(input$build_cv, { req(input$summary) })
   eval_sof  <- eventReactive(input$build_cv, { req(input$software) })
+  eval_lan  <- eventReactive(input$build_cv, { req(input$languages) })
   eval_edu  <- eventReactive(input$build_cv, { req(input$education) })
   eval_emp  <- eventReactive(input$build_cv, { req(input$employment) })
   eval_tea  <- eventReactive(input$build_cv, { req(input$teaching) })
@@ -126,6 +128,7 @@ server <- function(input, output, session) {
       path_input <- input$upload$datapath
       eval_text  <- input$summary
       eval_sof   <- input$software
+      eval_lan   <- input$languages
       eval_edu   <- input$education
       eval_emp   <- input$employment
       eval_tea   <- input$teaching
@@ -137,6 +140,7 @@ server <- function(input, output, session) {
                 path_input = path_input,
                 eval_text = eval_text,
                 eval_sof = eval_sof,
+                eval_lan = eval_lan,
                 eval_edu = eval_edu,
                 eval_emp = eval_emp,
                 eval_tea = eval_tea,
