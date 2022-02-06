@@ -158,6 +158,6 @@ cv %>% print_publications()
 Disclaimer {#disclaimer style="width: var(--sidebar-width); padding-left: var(--sidebar-horizontal-padding);"}
 --------------------------------------------------------------------------------
 
-This resume was made with the R package [**pagedown**](https://github.com/rstudio/pagedown).
+This resume was made with [Shiny](https://javierelio.shinyapps.io/cv_app/).
 
 Last updated on `r Sys.Date()`.
