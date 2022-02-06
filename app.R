@@ -65,10 +65,11 @@ ui <- fluidPage(
            fileInput("upload", "Upload the excel file with your data", accept = c(".xlsx")),
            
            p("Select the sections you would like to add into your CV"), 
-           checkboxInput("summary",     "CV summary"  , TRUE),
-           checkboxInput("education",   "Education"   , TRUE),
-           checkboxInput("employment",  "Employment"  , TRUE),
-           checkboxInput("teaching",    "Teaching"    , TRUE),
+           checkboxInput("summary",     "CV summary",   TRUE),
+           checkboxInput("software",    "Software",     TRUE),
+           checkboxInput("education",   "Education",    TRUE),
+           checkboxInput("employment",  "Employment",   TRUE),
+           checkboxInput("teaching",    "Teaching",     TRUE),
            checkboxInput("publication", "Publications", TRUE),
            
            p("Now you can build your CV. If everything works fine, you would get
@@ -102,6 +103,7 @@ server <- function(input, output, session) {
   })
   
   eval_text <- eventReactive(input$build_cv, { req(input$summary) })
+  eval_sof  <- eventReactive(input$build_cv, { req(input$software) })
   eval_edu  <- eventReactive(input$build_cv, { req(input$education) })
   eval_emp  <- eventReactive(input$build_cv, { req(input$employment) })
   eval_tea  <- eventReactive(input$build_cv, { req(input$teaching) })
@@ -123,6 +125,7 @@ server <- function(input, output, session) {
       name_input <- input$name
       path_input <- input$upload$datapath
       eval_text  <- input$summary
+      eval_sof   <- input$software
       eval_edu   <- input$education
       eval_emp   <- input$employment
       eval_tea   <- input$teaching
@@ -133,6 +136,7 @@ server <- function(input, output, session) {
       render_cv(name_input = name_input,
                 path_input = path_input,
                 eval_text = eval_text,
+                eval_sof = eval_sof,
                 eval_edu = eval_edu,
                 eval_emp = eval_emp,
                 eval_tea = eval_tea,

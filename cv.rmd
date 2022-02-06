@@ -11,6 +11,7 @@ params:
   cv_name: "Javier Elio"
   data_path: "cv_data.xlsx"
   summary: TRUE
+  software: TRUE
   education: TRUE
   employment: TRUE
   teaching: TRUE
@@ -36,6 +37,7 @@ cv_name <- params$cv_name
 
 # Print sections if TRUE
 eval_text <- params$summary
+eval_sof  <- params$software
 eval_edu  <- params$education
 eval_emp  <- params$employment
 eval_tea  <- params$teaching
@@ -67,10 +69,14 @@ cv %>% print_contact_info()
 
 ```
 
-Software {#software}
---------------------------------------------------------------------------------
+```{r software-heading, eval = eval_sof} 
 
-```{r software}
+cat("Software {#software}
+--------------------------------------------------------------------------------") 
+
+``` 
+
+```{r software, eval = eval_sof}
 
 cv %>% print_skill_bars()
 
