@@ -7,6 +7,7 @@ library(shinythemes)
 
 source("render_cv.r")
 
+# UI ----
 ui <- fluidPage(
   
   #shinythemes::themeSelector(),
@@ -108,6 +109,7 @@ ui <- fluidPage(
   
 )
 
+# Server ----
 server <- function(input, output, session) {
   
   name <- eventReactive(input$build_cv, {
@@ -194,7 +196,7 @@ server <- function(input, output, session) {
     output$downloadBtn <- renderUI(HTML(""))
   })
 
-  # Show my CV 
+  # Show my CV ----
   output$pdfviewer <- renderUI({
     tags$iframe(style = 'height: 550px; width: 400px;',
                 src = "cv.pdf")
@@ -202,4 +204,6 @@ server <- function(input, output, session) {
   
 }
 
+# App ----
 shinyApp(ui, server)
+
