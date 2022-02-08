@@ -18,6 +18,7 @@ params:
   teaching: TRUE
   publications: TRUE
   packages: TRUE
+  apps: TRUE
   
 ---
 
@@ -47,6 +48,7 @@ eval_emp  <- params$employment
 eval_tea  <- params$teaching
 eval_pub  <- params$publications
 eval_pck  <- params$packages
+eval_app  <- params$apps
 
 ```
 
@@ -197,6 +199,19 @@ cat("Software development {#packages}
 ```{r packages, eval = eval_pck}
 
 cv %>% print_packages()
+
+```
+
+```{r apps-heading, eval = eval_app} 
+
+cat("Apps development {#apps}
+--------------------------------------------------------------------------------") 
+
+``` 
+
+```{r apps, eval = eval_app}
+
+cv %>% print_apps()
 
 ```
 

@@ -86,7 +86,8 @@ ui <- fluidPage(
                width = 5,
                checkboxInput("teaching", "Teaching", TRUE),
                checkboxInput("publication", "Publications", TRUE),
-               checkboxInput("packages", "Software development", TRUE)
+               checkboxInput("packages", "Software development", TRUE),
+               checkboxInput("apps", "Apps development", TRUE)
              )
            ), 
            
@@ -129,6 +130,7 @@ server <- function(input, output, session) {
   eval_tea  <- eventReactive(input$build_cv, { req(input$teaching) })
   eval_pub  <- eventReactive(input$build_cv, { req(input$publication) })
   eval_pck  <- eventReactive(input$build_cv, { req(input$packages) })
+  eval_app  <- eventReactive(input$build_cv, { req(input$apps) })
   
   # Downloadable excel template for CV inputs ----
   url_template <- "https://github.com/javiereliomedina/cv_app/blob/main/CV_data.xlsx?raw=true"
@@ -153,6 +155,7 @@ server <- function(input, output, session) {
       eval_tea   <- input$teaching
       eval_pub   <- input$publication
       eval_pck   <- input$packages
+      eval_app   <- input$apps
       # add a spinner which blocks the UI
       show_modal_spinner()
       # launch the PDF file generation
@@ -165,7 +168,8 @@ server <- function(input, output, session) {
                 eval_emp = eval_emp,
                 eval_tea = eval_tea,
                 eval_pub = eval_pub,
-                eval_pck = eval_pck
+                eval_pck = eval_pck,
+                eval_app = eval_app
       )$then(
         onFulfilled = function(value) {
           showNotification(

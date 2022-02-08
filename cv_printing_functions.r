@@ -146,6 +146,20 @@ print_packages <- function(cv){
   
 }
 
+#' @description Prints apps
+print_apps <- function(cv){
+  
+  glue_template <- "
+
+**{app}**: {description}, {link}.
+
+"
+  
+  print(glue::glue_data(cv$apps, glue_template))
+  
+  invisible(cv)
+  
+}
 
 
 #' @description Prints out text block identified by a given label.

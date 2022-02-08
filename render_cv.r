@@ -33,7 +33,8 @@ render_cv <- function(name_input,
                       eval_emp,
                       eval_tea,
                       eval_pub,
-                      eval_pck) {
+                      eval_pck,
+                      eval_app) {
   
   input <- rmarkdown::render("cv.rmd",
                              params = list(cv_name = name_input,
@@ -45,7 +46,8 @@ render_cv <- function(name_input,
                                            employment = eval_emp,
                                            teaching = eval_tea,
                                            publications = eval_pub,
-                                           packages = eval_pck
+                                           packages = eval_pck,
+                                           apps = eval_app
                                            ))
   pagedown::chrome_print(input = input,
                          output = tempfile(fileext = ".pdf"),
