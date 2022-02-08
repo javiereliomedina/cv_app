@@ -75,17 +75,18 @@ ui <- fluidPage(
              
              column(
                width = 5,
-               checkboxInput("summary",     "CV summary",   TRUE),
-               checkboxInput("software",    "Software",     TRUE),
-               checkboxInput("languages",   "Languages",    TRUE),
-               checkboxInput("education",   "Education",    TRUE)
+               checkboxInput("summary", "CV summary", TRUE),
+               checkboxInput("software", "Software", TRUE),
+               checkboxInput("languages", "Languages", TRUE),
+               checkboxInput("education", "Education", TRUE),
+               checkboxInput("employment", "Employment", TRUE)
              ),
              
              column(
                width = 5,
-               checkboxInput("employment",  "Employment",   TRUE),
-               checkboxInput("teaching",    "Teaching",     TRUE),
-               checkboxInput("publication", "Publications", TRUE)
+               checkboxInput("teaching", "Teaching", TRUE),
+               checkboxInput("publication", "Publications", TRUE),
+               checkboxInput("packages", "Software development", TRUE)
              )
            ), 
            
@@ -127,6 +128,7 @@ server <- function(input, output, session) {
   eval_emp  <- eventReactive(input$build_cv, { req(input$employment) })
   eval_tea  <- eventReactive(input$build_cv, { req(input$teaching) })
   eval_pub  <- eventReactive(input$build_cv, { req(input$publication) })
+  eval_pck  <- eventReactive(input$build_cv, { req(input$packages) })
   
   # Downloadable excel template for CV inputs ----
   url_template <- "https://github.com/javiereliomedina/cv_app/blob/main/CV_data.xlsx?raw=true"
@@ -150,6 +152,7 @@ server <- function(input, output, session) {
       eval_emp   <- input$employment
       eval_tea   <- input$teaching
       eval_pub   <- input$publication
+      eval_pck   <- input$packages
       # add a spinner which blocks the UI
       show_modal_spinner()
       # launch the PDF file generation
@@ -161,7 +164,8 @@ server <- function(input, output, session) {
                 eval_edu = eval_edu,
                 eval_emp = eval_emp,
                 eval_tea = eval_tea,
-                eval_pub = eval_pub
+                eval_pub = eval_pub,
+                eval_pck = eval_pck
       )$then(
         onFulfilled = function(value) {
           showNotification(

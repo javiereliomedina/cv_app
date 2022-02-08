@@ -131,6 +131,21 @@ print_languages <- function(cv){
 
 }
 
+#' @description Prints packages
+print_packages <- function(cv){
+  
+  glue_template <- "
+
+**{package}**: {description}, {link}.
+
+"
+
+  print(glue::glue_data(cv$package, glue_template))
+  
+  invisible(cv)
+  
+}
+
 
 
 #' @description Prints out text block identified by a given label.

@@ -17,10 +17,12 @@ params:
   employment: TRUE
   teaching: TRUE
   publications: TRUE
+  packages: TRUE
   
 ---
 
 ```{r, setup, include=FALSE}
+
 knitr::opts_chunk$set(
   results = 'asis', 
   echo = FALSE,
@@ -44,10 +46,11 @@ eval_edu  <- params$education
 eval_emp  <- params$employment
 eval_tea  <- params$teaching
 eval_pub  <- params$publications
+eval_pck  <- params$packages
 
 ```
 
-```{css}
+```{css, echo=FALSE}
 
 .skill-bar {
   color: white;
@@ -55,6 +58,19 @@ eval_pub  <- params$publications
   margin-top: 3px;
   position: relative;
   width: 100%;
+}
+
+.extra-sidebar {
+  top: 0;
+  padding-top: 0;
+}
+
+.extra-sidebar h1 {
+  display: none;
+}
+
+.extra-sidebar .level2:first-of-type {
+  margin-top: 0;
 }
 
 ```
@@ -167,3 +183,21 @@ Disclaimer {#disclaimer style="width: var(--sidebar-width); padding-left: var(--
 This resume was made with [Shiny](https://javierelio.shinyapps.io/cv_app/).
 
 Last updated on `r Sys.Date()`.
+
+Second page sidebar {.aside .extra-sidebar}
+================================================================================
+
+```{r packages-heading, eval = eval_pck} 
+
+cat("Software development {#packages}
+--------------------------------------------------------------------------------") 
+
+``` 
+
+```{r packages, eval = eval_pck}
+
+cv %>% print_packages()
+
+```
+
+
