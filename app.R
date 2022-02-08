@@ -3,10 +3,14 @@ library(shinyFiles)
 library(bslib)
 library(promises)
 library(shinybusy)
+library(shinythemes)
 
 source("render_cv.r")
 
 ui <- fluidPage(
+  
+  #shinythemes::themeSelector(),
+  theme = shinytheme("cerulean"),
   
   titlePanel("Build an academic CV"),
   
@@ -56,7 +60,7 @@ ui <- fluidPage(
     
     h1("Create CV"),
     
-    column(4, 
+    column(6, 
            
            uiOutput("download_cv"),
            
@@ -65,13 +69,24 @@ ui <- fluidPage(
            fileInput("upload", "Upload the excel file with your data", accept = c(".xlsx")),
            
            p("Select the sections you would like to add into your CV"), 
-           checkboxInput("summary",     "CV summary",   TRUE),
-           checkboxInput("software",    "Software",     TRUE),
-           checkboxInput("languages",   "Languages",    TRUE),
-           checkboxInput("education",   "Education",    TRUE),
-           checkboxInput("employment",  "Employment",   TRUE),
-           checkboxInput("teaching",    "Teaching",     TRUE),
-           checkboxInput("publication", "Publications", TRUE),
+           
+           fluidRow(
+             
+             column(
+               width = 5,
+               checkboxInput("summary",     "CV summary",   TRUE),
+               checkboxInput("software",    "Software",     TRUE),
+               checkboxInput("languages",   "Languages",    TRUE),
+               checkboxInput("education",   "Education",    TRUE)
+             ),
+             
+             column(
+               width = 5,
+               checkboxInput("employment",  "Employment",   TRUE),
+               checkboxInput("teaching",    "Teaching",     TRUE),
+               checkboxInput("publication", "Publications", TRUE)
+             )
+           ), 
            
            p("Now you can build your CV. If everything works fine, you would get
              a message indicating that the PDF has been generated and a download
@@ -83,9 +98,9 @@ ui <- fluidPage(
           
     ),
     
-    column(8, 
+    column(6, 
            
-           img(src = "img_cv.png", height = 600, width = 550)
+           htmlOutput("pdfviewer")
            
     )
     
@@ -179,6 +194,12 @@ server <- function(input, output, session) {
     output$downloadBtn <- renderUI(HTML(""))
   })
 
+  # Show my CV 
+  output$pdfviewer <- renderUI({
+    tags$iframe(style = 'height: 550px; width: 400px;',
+                src = "cv.pdf")
+  })
+  
 }
 
 shinyApp(ui, server)
