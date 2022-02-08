@@ -155,7 +155,7 @@ cv %>% print_section("employment")
 
 ```{r teaching-heading, eval = eval_tea} 
 
-cat("Teaching Experience {data-icon=chalkboard-teacher}
+cat("Training and teaching skills {data-icon=chalkboard-teacher}
 --------------------------------------------------------------------------------") 
 
 ```

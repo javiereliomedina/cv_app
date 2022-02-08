@@ -123,9 +123,7 @@ print_languages <- function(cv){
 
 "
 
-  languages <- cv$languages
-
-  print(glue::glue_data(languages, glue_template))
+  print(glue::glue_data(cv$languages, glue_template))
 
   invisible(cv)
 
@@ -198,7 +196,6 @@ print_skill_bars <- function(cv,
 }
 
 
-
 #' @description List of all links in document labelled by their superscript integer.
 print_links <- function(cv) {
   n_links <- length(cv$links)
@@ -208,7 +205,6 @@ Links {data-icon=link}
 --------------------------------------------------------------------------------
 
 <br>
-
 
 ")
 
