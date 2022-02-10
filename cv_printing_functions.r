@@ -79,14 +79,13 @@ print_section <- function(cv, section_id){
   
   section_data <- dplyr::filter(cv$entries_data,
                                 section == section_id,
-                                in_resume == TRUE)
+                                in_resume == TRUE) 
   
   print(glue::glue_data(section_data, glue_template))
   
   invisible(cv)
   
 }
-
 
 #' @description Prints publications into markdown.
 #' @param section_id ID of the entries section to be printed as encoded by the `section` column of the `entries` table
@@ -105,7 +104,8 @@ N/A
 
 "
 
-  publications <- dplyr::filter(cv$publications, in_resume == TRUE)
+  publications <- dplyr::filter(cv$publications, in_resume == TRUE) %>% 
+    dplyr::arrange(desc(year))
   
   print(glue::glue_data(publications, glue_template))
   
