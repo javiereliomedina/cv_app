@@ -40,16 +40,20 @@ ui <- fluidPage(
     
     p("- ", strong("contact_info:"),"your contact information."),
     
-    p("- ", strong("text_blocks:"), "text with a summary of your CV."),
+    p("- ", strong("text_blocks:"), "text with a summary of your CV and your main interest."),
     
     p("- ", strong("entries_data:"), "information about your education,
-      employments and teaching activities."),
+      employments, and training and teaching activities."),
     
     p("- ", strong("software:"), "software skills."),
     
+    p("- ", strong("languages:"), "language skills."),
+    
     p("- ", strong("publications:"), "list of articles you have written."),
     
-    p("- ", strong("languages:"), "language skills."),
+    p("- ", strong("packages:"), "list of software packages (e.g. R, Python) you have developed."),
+    
+    p("- ", strong("apps:"), "list of software apps (e.g. Shiny) you have developed."),
     
     br(),
     
