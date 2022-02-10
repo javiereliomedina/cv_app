@@ -5,9 +5,9 @@ account: javierelio
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 5076525
-bundleId: 5565906
+bundleId: 5565949
 url: https://javierelio.shinyapps.io/cv_app/
-when: 1644519331.65638
-lastSyncTime: 1644519331.65638
+when: 1644520242.32618
+lastSyncTime: 1644520242.32618
 asMultiple: FALSE
 asStatic: FALSE

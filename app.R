@@ -7,6 +7,9 @@ library(shinythemes)
 
 source("render_cv.r")
 
+# link to Excel data
+url_template <- "https://github.com/javiereliomedina/cv_app/blob/main/CV_data.xlsx?raw=true"
+
 # UI ----
 ui <- fluidPage(
   
@@ -89,6 +92,7 @@ ui <- fluidPage(
                checkboxInput("packages", "Software development", TRUE),
                checkboxInput("apps", "Apps development", TRUE)
              )
+             
            ), 
            
            p("Now you can build your CV. If everything works fine, you would get
@@ -101,10 +105,9 @@ ui <- fluidPage(
           
     ),
     
-    column(6, 
-           
-           htmlOutput("pdfviewer")
-           
+    column(
+      width = 6,
+      htmlOutput("pdfviewer")
     )
     
   )
@@ -114,13 +117,8 @@ ui <- fluidPage(
 # Server ----
 server <- function(input, output, session) {
   
-  name <- eventReactive(input$build_cv, {
-    req(input$name)
-  })
-  
-  data <- eventReactive(input$build_cv, {
-    req(input$upload)
-  })
+  name <- eventReactive(input$build_cv, { req(input$name) })
+  data <- eventReactive(input$build_cv, { req(input$upload) })
   
   eval_text <- eventReactive(input$build_cv, { req(input$summary) })
   eval_sof  <- eventReactive(input$build_cv, { req(input$software) })
@@ -132,8 +130,7 @@ server <- function(input, output, session) {
   eval_pck  <- eventReactive(input$build_cv, { req(input$packages) })
   eval_app  <- eventReactive(input$build_cv, { req(input$apps) })
   
-  # Downloadable excel template for CV inputs ----
-  url_template <- "https://github.com/javiereliomedina/cv_app/blob/main/CV_data.xlsx?raw=true"
+## Downloadable excel template for CV inputs ----
   
   output$downloadData <- downloadHandler(
     filename <- "cv_data_template.xlsx",
@@ -142,7 +139,7 @@ server <- function(input, output, session) {
     }
   )
   
-  # Build CV ----
+## Build CV ----
   observeEvent(input$buildPDF, {
     output$downloadBtn <- renderUI({
       name_input <- input$name
@@ -204,10 +201,10 @@ server <- function(input, output, session) {
     output$downloadBtn <- renderUI(HTML(""))
   })
 
-  # Show my CV ----
+## Show my CV ----
   output$pdfviewer <- renderUI({
     tags$iframe(style = 'height: 550px; width: 400px;',
-                src = "cv.pdf")
+                src = "my_cv.pdf")
   })
   
 }
