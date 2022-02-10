@@ -3,7 +3,6 @@ library(shinyFiles)
 library(bslib)
 library(promises)
 library(shinybusy)
-library(shinythemes)
 
 source("render_cv.r")
 
@@ -14,7 +13,7 @@ url_template <- "https://github.com/javiereliomedina/cv_app/blob/main/CV_data.xl
 ui <- fluidPage(
   
   #shinythemes::themeSelector(),
-  theme = shinytheme("cerulean"),
+  theme = shinythemes::shinytheme("cerulean"),
   
   titlePanel("Build an academic CV"),
   
@@ -75,7 +74,6 @@ ui <- fluidPage(
            p("Select the sections you would like to add into your CV"), 
            
            fluidRow(
-             
              column(
                width = 5,
                checkboxInput("summary", "CV summary", TRUE),
@@ -84,7 +82,6 @@ ui <- fluidPage(
                checkboxInput("education", "Education", TRUE),
                checkboxInput("employment", "Employment", TRUE)
              ),
-             
              column(
                width = 5,
                checkboxInput("teaching", "Teaching", TRUE),
@@ -92,7 +89,6 @@ ui <- fluidPage(
                checkboxInput("packages", "Software development", TRUE),
                checkboxInput("apps", "Apps development", TRUE)
              )
-             
            ), 
            
            p("Now you can build your CV. If everything works fine, you would get
@@ -119,7 +115,6 @@ server <- function(input, output, session) {
   
   name <- eventReactive(input$build_cv, { req(input$name) })
   data <- eventReactive(input$build_cv, { req(input$upload) })
-  
   eval_text <- eventReactive(input$build_cv, { req(input$summary) })
   eval_sof  <- eventReactive(input$build_cv, { req(input$software) })
   eval_lan  <- eventReactive(input$build_cv, { req(input$languages) })
@@ -154,19 +149,20 @@ server <- function(input, output, session) {
       eval_pck   <- input$packages
       eval_app   <- input$apps
       # add a spinner which blocks the UI
-      show_modal_spinner()
+      show_modal_spinner(spin = "fading-circle", color = "#98c1d9")
       # launch the PDF file generation
-      render_cv(name_input = name_input,
-                path_input = path_input,
-                eval_text = eval_text,
-                eval_sof = eval_sof,
-                eval_lan = eval_lan,
-                eval_edu = eval_edu,
-                eval_emp = eval_emp,
-                eval_tea = eval_tea,
-                eval_pub = eval_pub,
-                eval_pck = eval_pck,
-                eval_app = eval_app
+      render_cv(
+        name_input = name_input,
+        path_input = path_input,
+        eval_text = eval_text,
+        eval_sof = eval_sof,
+        eval_lan = eval_lan,
+        eval_edu = eval_edu,
+        eval_emp = eval_emp,
+        eval_tea = eval_tea,
+        eval_pub = eval_pub,
+        eval_pck = eval_pck,
+        eval_app = eval_app
       )$then(
         onFulfilled = function(value) {
           showNotification(
@@ -203,8 +199,7 @@ server <- function(input, output, session) {
 
 ## Show my CV ----
   output$pdfviewer <- renderUI({
-    tags$iframe(style = 'height: 550px; width: 400px;',
-                src = "my_cv.pdf")
+    tags$iframe(style = 'height: 550px; width: 400px;', src = "my_cv.pdf")
   })
   
 }
