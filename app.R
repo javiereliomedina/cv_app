@@ -117,17 +117,17 @@ ui <- fluidPage(
 # Server ----
 server <- function(input, output, session) {
   
-  name <- eventReactive(input$build_cv, { req(input$name) })
-  data <- eventReactive(input$build_cv, { req(input$upload) })
-  eval_text <- eventReactive(input$build_cv, { req(input$summary) })
-  eval_sof  <- eventReactive(input$build_cv, { req(input$software) })
-  eval_lan  <- eventReactive(input$build_cv, { req(input$languages) })
-  eval_edu  <- eventReactive(input$build_cv, { req(input$education) })
-  eval_emp  <- eventReactive(input$build_cv, { req(input$employment) })
-  eval_tea  <- eventReactive(input$build_cv, { req(input$teaching) })
-  eval_pub  <- eventReactive(input$build_cv, { req(input$publication) })
-  eval_pck  <- eventReactive(input$build_cv, { req(input$packages) })
-  eval_app  <- eventReactive(input$build_cv, { req(input$apps) })
+  # name <- eventReactive(input$build_cv, { req(input$name) })
+  # data <- eventReactive(input$build_cv, { req(input$upload) })
+  # eval_text <- eventReactive(input$build_cv, { req(input$summary) })
+  # eval_sof  <- eventReactive(input$build_cv, { req(input$software) })
+  # eval_lan  <- eventReactive(input$build_cv, { req(input$languages) })
+  # eval_edu  <- eventReactive(input$build_cv, { req(input$education) })
+  # eval_emp  <- eventReactive(input$build_cv, { req(input$employment) })
+  # eval_tea  <- eventReactive(input$build_cv, { req(input$teaching) })
+  # eval_pub  <- eventReactive(input$build_cv, { req(input$publication) })
+  # eval_pck  <- eventReactive(input$build_cv, { req(input$packages) })
+  # eval_app  <- eventReactive(input$build_cv, { req(input$apps) })
   
 ## Downloadable excel template for CV inputs ----
   
@@ -141,32 +141,23 @@ server <- function(input, output, session) {
 ## Build CV ----
   observeEvent(input$buildPDF, {
     output$downloadBtn <- renderUI({
-      name_input <- input$name
-      path_input <- input$upload$datapath
-      eval_text  <- input$summary
-      eval_sof   <- input$software
-      eval_lan   <- input$languages
-      eval_edu   <- input$education
-      eval_emp   <- input$employment
-      eval_tea   <- input$teaching
-      eval_pub   <- input$publication
-      eval_pck   <- input$packages
-      eval_app   <- input$apps
+
       # add a spinner which blocks the UI
       show_modal_spinner(spin = "fading-circle", color = "#98c1d9")
+      
       # launch the PDF file generation
       render_cv(
-        name_input = name_input,
-        path_input = path_input,
-        eval_text = eval_text,
-        eval_sof = eval_sof,
-        eval_lan = eval_lan,
-        eval_edu = eval_edu,
-        eval_emp = eval_emp,
-        eval_tea = eval_tea,
-        eval_pub = eval_pub,
-        eval_pck = eval_pck,
-        eval_app = eval_app
+        name_input = input$name,
+        path_input = input$upload$datapath,
+        eval_text = input$summary,
+        eval_sof = input$software,
+        eval_lan = input$languages,
+        eval_edu = input$education,
+        eval_emp = input$employment,
+        eval_tea = input$teaching,
+        eval_pub = input$publication,
+        eval_pck = input$packages,
+        eval_app = input$apps
       )$then(
         onFulfilled = function(value) {
           showNotification(
