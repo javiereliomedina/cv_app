@@ -117,17 +117,16 @@ ui <- fluidPage(
 # Server ----
 server <- function(input, output, session) {
   
-  # name <- eventReactive(input$build_cv, { req(input$name) })
-  # data <- eventReactive(input$build_cv, { req(input$upload) })
-  # eval_text <- eventReactive(input$build_cv, { req(input$summary) })
-  # eval_sof  <- eventReactive(input$build_cv, { req(input$software) })
-  # eval_lan  <- eventReactive(input$build_cv, { req(input$languages) })
-  # eval_edu  <- eventReactive(input$build_cv, { req(input$education) })
-  # eval_emp  <- eventReactive(input$build_cv, { req(input$employment) })
-  # eval_tea  <- eventReactive(input$build_cv, { req(input$teaching) })
-  # eval_pub  <- eventReactive(input$build_cv, { req(input$publication) })
-  # eval_pck  <- eventReactive(input$build_cv, { req(input$packages) })
-  # eval_app  <- eventReactive(input$build_cv, { req(input$apps) })
+  name <- eventReactive(input$buildPDF, { req(input$name) })
+  # eval_text <- eventReactive(input$buildPDF, { req(input$summary) })
+  # eval_sof  <- eventReactive(input$buildPDF, { req(input$software) })
+  # eval_lan  <- eventReactive(input$buildPDF, { req(input$languages) })
+  # eval_edu  <- eventReactive(input$buildPDF, { req(input$education) })
+  # eval_emp  <- eventReactive(input$buildPDF, { req(input$employment) })
+  # eval_tea  <- eventReactive(input$buildPDF, { req(input$teaching) })
+  # eval_pub  <- eventReactive(input$buildPDF, { req(input$publication) })
+  # eval_pck  <- eventReactive(input$buildPDF, { req(input$packages) })
+  # eval_app  <- eventReactive(input$buildPDF, { req(input$apps) })
   
 ## Downloadable excel template for CV inputs ----
   
@@ -147,7 +146,7 @@ server <- function(input, output, session) {
       
       # launch the PDF file generation
       render_cv(
-        name_input = input$name,
+        name_input = name(),
         path_input = input$upload$datapath,
         eval_text = input$summary,
         eval_sof = input$software,
