@@ -117,17 +117,17 @@ ui <- fluidPage(
 # Server ----
 server <- function(input, output, session) {
   
-  name <- eventReactive(input$buildPDF, { req(input$name) })
-  # eval_text <- eventReactive(input$buildPDF, { req(input$summary) })
-  # eval_sof  <- eventReactive(input$buildPDF, { req(input$software) })
-  # eval_lan  <- eventReactive(input$buildPDF, { req(input$languages) })
-  # eval_edu  <- eventReactive(input$buildPDF, { req(input$education) })
-  # eval_emp  <- eventReactive(input$buildPDF, { req(input$employment) })
-  # eval_tea  <- eventReactive(input$buildPDF, { req(input$teaching) })
-  # eval_pub  <- eventReactive(input$buildPDF, { req(input$publication) })
-  # eval_pck  <- eventReactive(input$buildPDF, { req(input$packages) })
-  # eval_app  <- eventReactive(input$buildPDF, { req(input$apps) })
-  
+  name_react <- reactive({ input$name }) %>% bindEvent(input$buildPDF) 
+  summary_react <- reactive({ input$summary }) %>% bindEvent(input$buildPDF)
+  software_react <- reactive({ input$software }) %>% bindEvent(input$buildPDF)
+  languages_react <- reactive({ input$languages }) %>% bindEvent(input$buildPDF)
+  education_react <- reactive({ input$education }) %>% bindEvent(input$buildPDF)
+  employment_react <- reactive({ input$employment }) %>% bindEvent(input$buildPDF)
+  teaching_react <- reactive({ input$teaching }) %>% bindEvent(input$buildPDF)
+  publication_react <- reactive({ input$publication }) %>% bindEvent(input$buildPDF)
+  packages_react <- reactive({ input$packages }) %>% bindEvent(input$buildPDF)
+  apps_react <- reactive({ input$apps }) %>% bindEvent(input$buildPDF)
+ 
 ## Downloadable excel template for CV inputs ----
   
   output$downloadData <- downloadHandler(
@@ -146,17 +146,17 @@ server <- function(input, output, session) {
       
       # launch the PDF file generation
       render_cv(
-        name_input = name(),
+        name_input = name_react(),
         path_input = input$upload$datapath,
-        eval_text = input$summary,
-        eval_sof = input$software,
-        eval_lan = input$languages,
-        eval_edu = input$education,
-        eval_emp = input$employment,
-        eval_tea = input$teaching,
-        eval_pub = input$publication,
-        eval_pck = input$packages,
-        eval_app = input$apps
+        eval_text = summary_react(),
+        eval_sof = software_react(),
+        eval_lan = languages_react(),
+        eval_edu = education_react(),
+        eval_emp = employment_react(),
+        eval_tea = teaching_react(),
+        eval_pub = publication_react(),
+        eval_pck = packages_react(),
+        eval_app = apps_react()
       )$then(
         onFulfilled = function(value) {
           showNotification(
