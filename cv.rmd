@@ -136,7 +136,7 @@ cat("Education {data-icon=graduation-cap data-concise=true}
 
 ```{r edu, eval = eval_edu}
 
-cv %>% print_section("education")
+cv %>% print_section("education", cv_short)
 
 ```
 
@@ -149,7 +149,7 @@ cat("Employment {data-icon=suitcase}
 
 ```{r employment, eval = eval_emp}
 
-cv %>% print_section("employment")
+cv %>% print_section("employment", cv_short)
 
 ```
 
@@ -162,7 +162,7 @@ cat("Training and teaching skills {data-icon=chalkboard-teacher}
 
 ```{r teaching, eval = eval_tea}
 
-cv %>% print_section("teaching")
+cv %>% print_section("teaching", cv_short)
 
 ```
 
@@ -175,7 +175,7 @@ cat("Selected Publications {data-icon=file}
 
 ```{r publications, eval = eval_pub}
 
-cv %>% print_publications()
+cv %>% print_publications(cv_short)
 
 ```
 

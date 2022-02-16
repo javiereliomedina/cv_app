@@ -1,0 +1,254 @@
+---
+output: vitae::awesomecv
+params:
+  cv_name: Javier 
+  cv_surname: Elio
+  data_path: "cv_data.xlsx"
+  key_1: Researcher
+  key_2: Environemntal sciences
+  key_3: Geoinformatics
+  address: Haugesund (Norway)
+  phone: +47 4125 91 17
+  email: javiereliomedina@gmail.com
+  website: https://javierelio.netlify.app/
+  github: javiereliomedina
+  linkedin: javiereliomedina
+  twitter: Elio_Javi 
+  
+name: "`r params$cv_name`" 
+surname: "`r params$cv_surname`"
+date: "`r format(Sys.time(), '%B, %Y')`"
+position: "`r params$key_1` | `r params$key_2` | `r params$key_3`"
+address: "`r params$address`"
+phone: "`r params$phone`"
+email: "`r params$email`"
+website: "`r params$website`"
+github: "`r params$github`"
+linkedin: "`r params$linkedin`"
+twitter: "`r params$twitter`"
+header-includes:
+  - \usepackage{colortbl}
+  - \usepackage{longtable}
+  - \usepackage{float}
+  - \arrayrulecolor{white}
+  - \definecolor{darktext}{HTML}{414141}
+  - \definecolor{blue}{rgb}{0.0, 0.0, 1.0}
+---
+
+```{r setup, include = FALSE}
+
+knitr::opts_chunk$set(
+  results = 'asis', 
+  echo = FALSE,
+  message = FALSE, 
+  warning = FALSE
+)
+
+library(tidyverse)
+library(readxl)
+library(knitr)
+library(kableExtra)
+
+source("cv_long_printing_functions.r")
+
+# Read data (from csv)
+data_path <- params$data_path
+cv <- create_cv_object(data_path)
+cv_name <- params$cv_name
+cv_surname <- params$cv_surname
+
+# # Print sections if TRUE
+# eval_text <- params$summary
+# eval_sof  <- params$software
+# eval_lan  <- params$languages
+# eval_edu  <- params$education
+# eval_emp  <- params$employment
+# eval_tea  <- params$teaching
+# eval_pub  <- params$publications
+# eval_pck  <- params$packages
+# eval_app  <- params$apps
+
+# Short sentence with expertise
+research_text <- "My research interests are:"
+  
+```
+
+\vspace{0.5cm}
+\footnotesize 
+\rightline{\textcolor{darktext}{\textit{`r pull(filter(cv$text_blocks, loc == "short_description"), text)`}}}
+\normalsize
+
+\vspace{0.5cm}
+
+# Career Summary
+
+\vspace{-0.1cm}
+
+```{r text-block-1}
+
+cv %>% print_text_block("intro")
+
+```
+
+```{r text-block-2}
+
+cat("My research interests are:")
+  
+```
+
+```{r text-block-3}
+
+cv %>% print_reserch_intrerest()
+
+```
+
+# Education
+
+\vspace{-0.1cm}
+
+```{r education}
+
+cv %>% print_section("education")
+
+```
+
+\vspace{-1cm}
+
+# Experience
+
+\vspace{-0.1cm}
+
+```{r experience}
+
+cv %>% print_section("employment")
+  
+```
+
+\vspace{-1cm}
+
+# Invited Positions
+
+\vspace{-0.1cm}
+
+```{r inv_positions}
+
+cv %>% print_section("inv_position")
+  
+```
+
+\vspace{-1cm}
+
+# Professional memberships
+
+\vspace{-0.1cm}
+
+```{r memberships}
+
+cv %>% print_section("membership")
+  
+```
+
+\vspace{-1cm}
+
+# Professional Services
+
+\vspace{-0.1cm}
+
+```{r Services}
+
+cv %>% print_section("service")
+  
+```
+
+\vspace{-1cm}
+
+# Funding projects
+
+\vspace{-0.1cm}
+
+```{r funding}
+  
+cv %>% print_section("project")
+
+```
+
+\vspace{-1cm}
+
+# Honours and awards
+
+\vspace{-0.1cm}
+
+```{r awards}
+  
+cv %>% print_section("award")
+
+```
+
+\vspace{-1cm}
+
+# Training and teaching experience
+
+## Lectures/Seminars
+
+\vspace{-0.1cm}
+
+```{r lectures}
+
+cv %>% print_section("teaching")
+
+```
+
+\vspace{-1cm}
+
+## Supervision
+
+\vspace{-0.1cm}
+
+```{r supervision}
+
+cv %>% print_section("supervision")
+
+```
+
+\vspace{-1cm}
+
+## External sensor
+
+\vspace{-0.1cm}
+
+```{r ext-sensor}
+
+cv %>% print_section("ext_sensor")
+
+```
+
+\vspace{-1cm}
+
+# Publications
+
+\vspace{-0.1cm}
+
+I have published **`r length(cv$publications$title)`** peer-reviewed journal articles, chapters or books on Environmental Science topics. I have also presented my research at 4 invited talks, and in several national and international conferences.
+
+## Peer reviewed articles
+
+\vspace{-0.1cm}
+
+```{r articles}
+
+  cv %>% print_publications("article", cv_surname)
+
+```
+
+\vspace{-0.5cm}
+
+## Books and book chapters
+
+\vspace{-0.1cm}
+
+```{r books}
+
+   cv %>% print_publications("book", cv_surname)
+
+```
+

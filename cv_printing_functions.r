@@ -4,30 +4,30 @@
 
 #' Create a CV_Printer object.
 create_cv_object <-  function(data_path) {
-
+  
   # Read data from excel
   cv <- data_path %>% 
     excel_sheets() %>% 
     set_names() %>% 
     map(read_excel, skip = 1, path = data_path)
   
-
+  
   extract_year <- function(dates){
     date_year <- stringr::str_extract(dates, "(20|19)[0-9]{2}")
     date_year[is.na(date_year)] <- lubridate::year(lubridate::ymd(Sys.Date())) + 10
-
+    
     date_year
   }
-
+  
   parse_dates <- function(dates){
-
+    
     date_month <- stringr::str_extract(dates, "(\\w+|\\d+)(?=(\\s|\\/|-)(20|19)[0-9]{2})")
     date_month[is.na(date_month)] <- "1"
-
+    
     paste("1", date_month, extract_year(dates), sep = "-") %>%
       lubridate::dmy()
   }
-
+  
   # Clean up entries dataframe to format we need it for printing
   cv$entries_data %<>%
     tidyr::unite(
@@ -53,9 +53,8 @@ create_cv_object <-  function(data_path) {
         TRUE                ~ paste(end, "-", start)
       )
     ) %>%
-    dplyr::arrange(desc(parse_dates(end))) %>%
-    dplyr::mutate_all(~ ifelse(is.na(.), 'N/A', .))
-
+    dplyr::arrange(desc(parse_dates(end))) 
+  
   cv
   
 }
@@ -68,10 +67,10 @@ print_section <- function(cv, section_id){
   glue_template <- "
 ### {title}
 
-{loc}
-
 {institution}
 
+{loc}
+  
 {timeline}
 
 {description_bullets}
@@ -79,7 +78,8 @@ print_section <- function(cv, section_id){
   
   section_data <- dplyr::filter(cv$entries_data,
                                 section == section_id,
-                                in_resume == TRUE) 
+                                in_resume == TRUE) %>% 
+    dplyr::arrange(desc(end_year))
   
   print(glue::glue_data(section_data, glue_template))
   
@@ -103,8 +103,9 @@ N/A
 <i class='fa fa-link'></i> {doi}
 
 "
-
-  publications <- dplyr::filter(cv$publications, in_resume == TRUE) %>% 
+  
+  dplyr::filter(cv$publications,
+                in_resume == TRUE) %>% 
     dplyr::arrange(desc(year))
   
   print(glue::glue_data(publications, glue_template))
@@ -113,20 +114,17 @@ N/A
   
 }
 
-
 #' @description Prints languages.
 print_languages <- function(cv){
-
+  
   glue_template <- "
 
 **{language}**: {level}.
 
 "
-
-  print(glue::glue_data(cv$languages, glue_template))
-
+  
   invisible(cv)
-
+  
 }
 
 #' @description Prints packages
@@ -137,7 +135,7 @@ print_packages <- function(cv){
 **{package}**: {description}, {link}.
 
 "
-
+  
   print(glue::glue_data(cv$package, glue_template))
   
   invisible(cv)
@@ -159,7 +157,6 @@ print_apps <- function(cv){
   
 }
 
-
 #' @description Prints out text block identified by a given label.
 #' @param label ID of the text block to print as encoded in `label` column of `text_blocks` table.
 print_text_block <- function(cv, label){
@@ -168,7 +165,6 @@ print_text_block <- function(cv, label){
     cat()
 }
 
-
 #' @description Construct a bar chart of skills
 #' @param out_of The relative maximum for skills. Used to set what a fully filled in skill bar is.
 print_skill_bars <- function(cv, 
@@ -176,7 +172,7 @@ print_skill_bars <- function(cv,
                              bar_color = "#969696",
                              bar_background = "#d9d9d9", 
                              glue_template = "default"){
-
+  
   if(glue_template == "default"){
     glue_template <- "
 <div
@@ -191,7 +187,7 @@ print_skill_bars <- function(cv,
     dplyr::mutate(width_percent = round(100*as.numeric(level)/out_of)) %>%
     glue::glue_data(glue_template) %>%
     print()
-
+  
   invisible(cv)
 }
 
@@ -207,12 +203,12 @@ Links {data-icon=link}
 <br>
 
 ")
-
+    
     purrr::walk2(cv$links, 1:n_links, function(link, index) {
       print(glue::glue('{index}. {link}'))
     })
   }
-
+  
   invisible(cv)
 }
 
@@ -223,6 +219,6 @@ print_contact_info <- function(cv){
   glue::glue_data(cv$contact_info, 
                   "- <i class='fa fa-{icon}'></i> {contact}") %>%
     print()
-
+  
   invisible(cv)
 }
