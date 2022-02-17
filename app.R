@@ -203,7 +203,7 @@ server <- function(input, output, session) {
 
 ## Show my CV ----
   output$pdfviewer <- renderUI({
-    tags$iframe(style = 'height: 550px; width: 400px;', src = "my_cv.pdf")
+    tags$iframe(style = 'height: 550px; width: 400px;', src = "cv_short.pdf")
   })
   
 }

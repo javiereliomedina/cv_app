@@ -104,10 +104,10 @@ N/A
 
 "
   
-  dplyr::filter(cv$publications,
+  publications <- dplyr::filter(cv$publications,
                 in_resume == TRUE) %>% 
-    dplyr::arrange(desc(year))
-  
+    dplyr::arrange(desc(year)) 
+    
   print(glue::glue_data(publications, glue_template))
   
   invisible(cv)
@@ -123,6 +123,7 @@ print_languages <- function(cv){
 
 "
   
+  print(glue::glue_data(cv$languages, glue_template))
   invisible(cv)
   
 }

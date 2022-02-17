@@ -36,7 +36,7 @@ render_cv <- function(name_input,
                       eval_pck,
                       eval_app) {
   
-  input <- rmarkdown::render("cv.rmd",
+  input <- rmarkdown::render("cv_short.rmd",
                              params = list(cv_name = name_input,
                                            data_path = path_input,
                                            summary = eval_text,
