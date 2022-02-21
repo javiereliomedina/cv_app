@@ -126,7 +126,7 @@ cv %>% print_section("employment")
 
 \vspace{-1cm}
 
-# Invited Positions
+# Invited positions
 
 \vspace{-0.1cm}
 
@@ -150,7 +150,7 @@ cv %>% print_section("membership")
 
 \vspace{-1cm}
 
-# Professional Services
+# Professional services
 
 \vspace{-0.1cm}
 
