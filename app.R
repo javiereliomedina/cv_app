@@ -16,9 +16,6 @@ ui <- fluidPage(
   
   tabsetPanel(
     
-    #shinythemes::themeSelector(),
-    
-    
     # App introduction ----
     
     tabPanel("Intro",
@@ -187,24 +184,25 @@ ui <- fluidPage(
                      checkboxInput("ext_sensor_long", "External sensor", TRUE),
                      checkboxInput("article_long", "Peer reviewed articles", TRUE),
                      checkboxInput("book_long", "Books and book chapters", TRUE),
-                     )
+                   )
                  ), 
                  
                  p("Now you can build your CV. If everything works fine, you would get
              a message indicating that the PDF has been generated and a download
              button would appear to save it. It should be something similar to mine!!"
                  ),
-                 
-                 actionButton("buildPDF_long", "Build PDF document"),
-                 uiOutput("downloadBtn_long")
-                 
+             
+             # actionButton("buildPDF_long", "Build PDF document"),
+             # uiOutput("downloadBtn_long")
+             downloadButton("buildPDF_long", "Build PDF document")
+             
                ),
-               
-               column(
-                 width = 6,
-                 htmlOutput("pdfviewer_long")
-               )
-               
+             
+             column(
+               width = 6,
+               htmlOutput("pdfviewer_long")
+             )
+             
              )
              
     )
@@ -215,7 +213,7 @@ ui <- fluidPage(
 # Server ----
 server <- function(input, output, session) {
   
-  ## Downloadable excel template for CV inputs ----
+## Downloadable excel template for CV inputs ----
   
   output$downloadData <- downloadHandler(
     filename <- "cv_data_template.xlsx",
@@ -224,7 +222,7 @@ server <- function(input, output, session) {
     }
   )
   
-  ## Short CV ----
+## Short CV ----
   name_react <- reactive({ input$name }) %>% bindEvent(input$buildPDF) 
   summary_react <- reactive({ input$summary }) %>% bindEvent(input$buildPDF)
   software_react <- reactive({ input$software }) %>% bindEvent(input$buildPDF)
@@ -245,7 +243,7 @@ server <- function(input, output, session) {
       # add a spinner which blocks the UI
       show_modal_spinner(spin = "fading-circle", color = "#98c1d9")
       # launch the PDF file generation
-      render_cv(
+      render_cv_short(
         name_input = name_react(),
         path_input = input$upload$datapath,
         eval_text = summary_react(),
@@ -273,7 +271,7 @@ server <- function(input, output, session) {
             contentType = "application/pdf"
           )
           # return a download button
-          downloadButton("downloadPDF", paste("Download", "CV"))
+          downloadButton("downloadPDF", "Download CV")
         },
         onRejected = function(error) {
           showNotification(
@@ -300,7 +298,132 @@ server <- function(input, output, session) {
     tags$iframe(style = 'height: 550px; width: 400px;', src = "cv_short.pdf")
   })
   
-  ## long CV  ----
+## Full CV  ----
+  # name_long_react <- reactive({ input$name_long }) %>% bindEvent(input$buildPDF_long) 
+  # summary_long_react <- reactive({ input$summary_long }) %>% bindEvent(input$buildPDF_long)
+  # education_long_react <- reactive({ input$education_long }) %>% bindEvent(input$buildPDF_long)
+  # employment_long_react <- reactive({ input$employment_long }) %>% bindEvent(input$buildPDF_long)
+  # inv_position_long_react <- reactive({ input$inv_position_long }) %>% bindEvent(input$buildPDF_long)
+  # membership_long_react <- reactive({ input$membership_long }) %>% bindEvent(input$buildPDF_long)
+  # service_long_react <- reactive({ input$service_long }) %>% bindEvent(input$buildPDF_long)
+  # project_long_react <- reactive({ input$project_long }) %>% bindEvent(input$buildPDF_long)
+  # award_long_react <- reactive({ input$award_long }) %>% bindEvent(input$buildPDF_long)
+  # teaching_long_react <- reactive({ input$teaching_long }) %>% bindEvent(input$buildPDF_long)
+  # supervision_long_react <- reactive({ input$supervision_long }) %>% bindEvent(input$buildPDF_long)
+  # ext_sensor_long_react <- reactive({ input$ext_sensor_long }) %>% bindEvent(input$buildPDF_long)
+  # article_long_react <- reactive({ input$article_long }) %>% bindEvent(input$buildPDF_long)
+  # book_long_react <- reactive({ input$book_long }) %>% bindEvent(input$buildPDF_long)
+  # 
+  output$buildPDF_long <- downloadHandler(
+    filename = "cv_full.pdf", 
+    content = function(file) {
+      
+      # Temporary directory
+      tempCV <- file.path(tempdir(), "cv_long.Rmd")
+      file.copy("cv_long.Rmd", tempCV, overwrite = TRUE)
+      tempPrint <- file.path(tempdir(), "cv_long_printing_functions.r")
+      file.copy("cv_long_printing_functions.r", tempPrint, overwrite = TRUE )
+      
+      # Knit the document
+      output <- output <- rmarkdown::render(
+        input = tempCV,
+        params = list(cv_name = input$name_long,
+                      data_path = input$upload_long$datapath,
+                      summary_long = input$summary_long,
+                      education_long = input$education_long,
+                      employment_long = input$employment_long,
+                      inv_position_long = input$inv_position_long,
+                      membership_long = input$membership_long,
+                      service_long = input$service_long,  
+                      project_long = input$project_long,
+                      award_long = input$award_long,
+                      teaching_long = input$teaching_long,
+                      supervision_long = input$supervision_long,
+                      ext_sensor_long = input$ext_sensor_long,
+                      article_long = input$article_long,
+                      book_long = input$book_long
+                      )
+        )
+      file.copy(output, file)  
+      })
+  
+  # cv_name = name_long_react(),
+  # data_path = input$upload_long$datapath,
+  # summary_long = summary_long_react(),
+  # education_long = education_long_react(),
+  # employment_long = employment_long_react(),
+  # inv_position_long = inv_position_long_react(),
+  # membership_long = membership_long_react(),
+  # service_long = service_long_react(),  
+  # project_long = project_long_react(),
+  # award_long = award_long_react(),
+  # teaching_long = teaching_long_react(),
+  # supervision_long = supervision_long_react(),
+  # ext_sensor_long = ext_sensor_long_react(),
+  # article_long = article_long_react(),
+  # book_long = book_long_react()
+  
+  ### Build CV
+  # observeEvent(input$buildPDF_long, {
+  # 
+  #   output$downloadBtn_long <- renderUI({
+  # 
+  #     # add a spinner which blocks the UI
+  #     show_modal_spinner(spin = "fading-circle", color = "#98c1d9")
+  #     # launch the PDF file generation
+  #     render_cv_long(
+  #       name_input = name_long_react(),
+  #       path_input = input$upload_long$datapath,
+  #       eval_text = summary_long_react(),
+  #       eval_edu = education_long_react(),
+  #       eval_emp = employment_long_react(),
+  #       eval_inv = inv_position_long_react(),
+  #       eval_mem = membership_long_react(),
+  #       eval_ser = service_long_react(),
+  #       eval_pro = project_long_react(),
+  #       eval_awa = award_long_react(),
+  #       eval_tea = teaching_long_react(),
+  #       eval_sup = supervision_long_react(),
+  #       eval_ext = ext_sensor_long_react(),
+  #       eval_art = article_long_react(),
+  #       eval_boo = book_long_react()
+  #     )$then(
+  #       onFulfilled = function(value) {
+  #         showNotification(
+  #           paste("PDF file successfully generated"),
+  #           type = "message"
+  #         )
+  #         output$buildPDF_long <- downloadHandler(
+  #           filename = function() {
+  #             "cv_academic.pdf"
+  #           },
+  #           content = function(file) {
+  #             file.copy(value, file)
+  #           }
+  #         )
+  #       # return a download button
+  #       downloadButton("downloadPDF_long", "Download CV")
+  #       },
+  #       onRejected = function(error) {
+  #         showNotification(
+  #           error$message,
+  #           duration = NULL,
+  #           type = "error"
+  #         )
+  #         HTML("")
+  #       }
+  #     )$finally(remove_modal_spinner)
+  # 
+  #   })
+  # 
+  # })
+  # observeEvent("cv", {
+  # 
+  #   output$downloadBtn_long <- renderUI(HTML(""))
+  # 
+  # })
+  
+  ### Show long CV
   output$pdfviewer_long <- renderUI({
     tags$iframe(style = 'height: 550px; width: 400px;', src = "cv_long.pdf")
   })
