@@ -29,9 +29,9 @@ ui <- fluidPage(
                
                sidebarPanel(
                  
-      h1("Download Excel template"),
+                 h1("Download Excel template"),
                  
-      p("You would need to create an excel file with all the information you would
+                 p("You would need to create an excel file with all the information you would
       like to put in your CV. The file should have six sheets:"),
       
       p("- ", strong("contact_info:"),"your contact information."),
@@ -61,27 +61,27 @@ ui <- fluidPage(
       
       mainPanel(
         
-      p("I have created this app for building an academic CV
+        p("I have created this app for building an academic CV
         from an excel file. It uses the CV template of",
-      a("pagedown,", href = "https://github.com/rstudio/pagedown.git"),
-      "and it is inspired on the",
-      a("datadrivencv", href = "https://github.com/nstrayer/datadrivencv"),
-      "package and a demo shiny app developed by",
-      a("Romain Lesur.", href = "https://github.com/RLesur/chrome_print_shiny.git"),
-      "If you use it, please let me know what you think on my",
-      a("twitter", href = "https://twitter.com/Elio_Javi"),
-      "or",
-      a("linkedin", href = "https://www.linkedin.com/in/javiereliomedina/"),
-      "pages."),
-      p("There are two panels with diferent templates depending on the CV you would like
+        a("pagedown,", href = "https://github.com/rstudio/pagedown.git"),
+        "and it is inspired on the",
+        a("datadrivencv", href = "https://github.com/nstrayer/datadrivencv"),
+        "package and a demo shiny app developed by",
+        a("Romain Lesur.", href = "https://github.com/RLesur/chrome_print_shiny.git"),
+        "If you use it, please let me know what you think on my",
+        a("twitter", href = "https://twitter.com/Elio_Javi"),
+        "or",
+        a("linkedin", href = "https://www.linkedin.com/in/javiereliomedina/"),
+        "pages."),
+        p("There are two panels with diferent templates depending on the CV you would like
         to generate."),
-      tags$li(strong("2-pages CV:"), "the template is optimised for a 2 pages document 
+        tags$li(strong("2-pages CV:"), "the template is optimised for a 2 pages document 
               and it may be more interesting if you apply for industrial jobs."),
-      tags$li(strong("Full CV:"), "an extended academic CV with a list of publications."),
-      br(),
-      p("However, both templates use the same excel file for importing the data.
+        tags$li(strong("Full CV:"), "an extended academic CV with a list of publications."),
+        br(),
+        p("However, both templates use the same excel file for importing the data.
         You may find the excel template in", em("Download Excel template."))
-      
+        
       ),
       
       position = "right"
@@ -89,134 +89,142 @@ ui <- fluidPage(
              )
       
     ),
-   
+    
     # Short CV (2-pages) ----
     tabPanel("2-pages CV",
              
              titlePanel("Short academic CV"),
              
-             mainPanel(
-               
-               h1("Create CV"),
-               
-               column(
-                 width = 6,
+             sidebarLayout(
+             
+               sidebarPanel(
                  
-                 uiOutput("download_cv"),
-                 
+                 h1("Input data"),
                  textInput("name", "Add your name"),
+                 fileInput("upload", "Upload the excel file with your data", accept = c(".xlsx"))
                  
-                 fileInput("upload", "Upload the excel file with your data", accept = c(".xlsx")),
+               ),
+               mainPanel(
                  
-                 p("Select the sections you would like to add into your CV"), 
-                 
-                 fluidRow(
-                   column(
-                     width = 4,
-                     checkboxInput("summary", "CV summary", TRUE),
-                     checkboxInput("software", "Software", TRUE),
-                     checkboxInput("languages", "Languages", TRUE),
-                     checkboxInput("education", "Education", TRUE),
-                     checkboxInput("employment", "Employment", TRUE)
-                   ),
-                   column(
-                     width = 4,
-                     checkboxInput("teaching", "Teaching", TRUE),
-                     checkboxInput("publication", "Publications", TRUE),
-                     checkboxInput("packages", "Software development", TRUE),
-                     checkboxInput("apps", "Apps development", TRUE)
-                   )
-                 ), 
-                 
-                 p("Now you can build your CV. If everything works fine, you would get
+                 column(
+                   width = 6,
+                   
+                   uiOutput("download_cv"),
+                   
+                   p(strong("Select the sections you would like to add into your CV")), 
+                   
+                   fluidRow(
+                     column(
+                       width = 4,
+                       checkboxInput("summary", "CV summary", TRUE),
+                       checkboxInput("software", "Software", TRUE),
+                       checkboxInput("languages", "Languages", TRUE),
+                       checkboxInput("education", "Education", TRUE),
+                       checkboxInput("employment", "Employment", TRUE)
+                     ),
+                     column(
+                       width = 4,
+                       checkboxInput("teaching", "Teaching", TRUE),
+                       checkboxInput("publication", "Publications", TRUE),
+                       checkboxInput("packages", "Software development", TRUE),
+                       checkboxInput("apps", "Apps development", TRUE)
+                     )
+                   ), 
+                   
+                   p("Now you can build your CV. If everything works fine, you would get
              a message indicating that the PDF has been generated and a download
              button would appear to save it. It should be something similar to mine!!"
-                 ),
+                   ),
              
              actionButton("buildPDF", "Build PDF document"),
              uiOutput("downloadBtn")
              
-               ),
+                 ),
              
              column(
                width = 6,
                htmlOutput("pdfviewer")
              )
              
-             )
+               )
              
-    ),
+             )  
+             ),
     
     # Full CV ----
     tabPanel("Full CV",
              
              titlePanel("Full academic CV"),
              
-             mainPanel(
+             sidebarLayout(
                
-               h1("Create CV"),
-               
-               column(
-                 width = 6,
+               sidebarPanel(
                  
-                 uiOutput("download_cv_long"),
-                 
+                 h1("Input data"),
                  textInput("name_long", "Add your name"),
-                 
+                 textInput("surname_long", "Add your surname"),
                  fileInput("upload_long", "Upload the excel file with your data", accept = c(".xlsx")),
+                 p(strong("Add 3 keywords describing you or your research interest")),
+                 textInput("key_1", ""),
+                 textInput("key_2", ""),
+                 textInput("key_3", "")
                  
-                 p("Select the sections that applied to you:"), 
+               ),
+               
+               mainPanel(
                  
-                 fluidRow(
-                   column(
-                     width = 5,
-                     checkboxInput("summary_long", "CV summary", TRUE),
-                     checkboxInput("education_long", "Education", TRUE),
-                     checkboxInput("employment_long", "Experience", TRUE),
-                     checkboxInput("inv_position_long", "Invited Positions", TRUE),
-                     checkboxInput("membership_long", "Professional memberships", TRUE),
-                     checkboxInput("service_long", "Professional services", TRUE),
-                     checkboxInput("project_long", "Funding projects", TRUE)
-                     
-                   ),
-                   column(
-                     width = 5,
-                     checkboxInput("award_long", "Honours and awards", TRUE),
-                     checkboxInput("teaching_long", "Lectures/Seminars", TRUE),
-                     checkboxInput("supervision_long", "Supervision", TRUE),
-                     checkboxInput("ext_sensor_long", "External sensor", TRUE),
-                     checkboxInput("article_long", "Peer reviewed articles", TRUE),
-                     checkboxInput("book_long", "Books and book chapters", TRUE),
-                   )
-                 ), 
-                 
-                 p("Now you can build your CV. If everything works fine, you would get
-             a message indicating that the PDF has been generated and a download
-             button would appear to save it. It should be something similar to mine!!"
-                 ),
+                 column(6,
+                        
+                        uiOutput("download_cv_long"),
+                        
+                        p(strong("Select the sections that applied to you:")), 
+                        
+                        fluidRow(
+                          column(
+                            width = 5,
+                            checkboxInput("summary_long", "CV summary", TRUE),
+                            checkboxInput("education_long", "Education", TRUE),
+                            checkboxInput("employment_long", "Experience", TRUE),
+                            checkboxInput("inv_position_long", "Invited Positions", TRUE),
+                            checkboxInput("membership_long", "Professional memberships", TRUE),
+                            checkboxInput("service_long", "Professional services", TRUE),
+                            checkboxInput("project_long", "Funding projects", TRUE)
+                            
+                          ),
+                          column(
+                            width = 5,
+                            checkboxInput("award_long", "Honours and awards", TRUE),
+                            checkboxInput("teaching_long", "Lectures/Seminars", TRUE),
+                            checkboxInput("supervision_long", "Supervision", TRUE),
+                            checkboxInput("ext_sensor_long", "External sensor", TRUE),
+                            checkboxInput("article_long", "Peer reviewed articles", TRUE),
+                            checkboxInput("book_long", "Books and book chapters", TRUE),
+                          )
+                        ), 
+                        
+                        p("Now you can build your CV. If everything works fine, you would get
+             a PDF with your full academic CV. It should be something similar to mine!!"
+                        ),
              
-             # actionButton("buildPDF_long", "Build PDF document"),
-             # uiOutput("downloadBtn_long")
              downloadButton("buildPDF_long", "Build PDF document")
              
-               ),
+                 ),
              
-             column(
-               width = 6,
-               htmlOutput("pdfviewer_long")
+             
+             
+             column(6, htmlOutput("pdfviewer_long"))
+             
+               )
+             
              )
-             
-             )
-             
     )
-    
   )
 )
 
 # Server ----
 server <- function(input, output, session) {
   
-## Downloadable excel template for CV inputs ----
+  # Downloadable excel template for CV inputs ----
   
   output$downloadData <- downloadHandler(
     filename <- "cv_data_template.xlsx",
@@ -225,7 +233,7 @@ server <- function(input, output, session) {
     }
   )
   
-## Short CV ----
+  # Short CV ----
   name_react <- reactive({ input$name }) %>% bindEvent(input$buildPDF) 
   summary_react <- reactive({ input$summary }) %>% bindEvent(input$buildPDF)
   software_react <- reactive({ input$software }) %>% bindEvent(input$buildPDF)
@@ -299,7 +307,7 @@ server <- function(input, output, session) {
     tags$iframe(style = 'height: 550px; width: 400px;', src = "cv_short.pdf")
   })
   
-## Full CV  ----
+  # Full CV  ----
    
   output$buildPDF_long <- downloadHandler(
     filename = "cv_full.pdf", 
@@ -315,6 +323,10 @@ server <- function(input, output, session) {
       output <- output <- rmarkdown::render(
         input = tempCV,
         params = list(cv_name = input$name_long,
+                      cv_surname = input$surname_long,
+                      key_1 = input$key_1,
+                      key_2 = input$key_2,
+                      key_3 = input$key_3,
                       data_path = input$upload_long$datapath,
                       summary_long = input$summary_long,
                       education_long = input$education_long,

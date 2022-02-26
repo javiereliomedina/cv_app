@@ -18,9 +18,9 @@ params:
   ext_sensor_long: TRUE
   article_long: TRUE
   book_long: TRUE
-  key_1: "Researcher"
-  key_2: "Environemntal sciences"
-  key_3: "Geoinformatics"
+  key_1: NULL
+  key_2: NULL
+  key_3: NULL
   address: "Haugesund (Norway)"
   phone: "+47 4125 91 17"
   email: "javiereliomedina@gmail.com"
