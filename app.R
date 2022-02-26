@@ -334,66 +334,6 @@ server <- function(input, output, session) {
       file.copy(output, file)  
       })
   
-  ### Build CV
-  # observeEvent(input$buildPDF_long, {
-  # 
-  #   output$downloadBtn_long <- renderUI({
-  # 
-  #     # add a spinner which blocks the UI
-  #     show_modal_spinner(spin = "fading-circle", color = "#98c1d9")
-  #     # launch the PDF file generation
-  #     render_cv_long(
-  #       name_input = name_long_react(),
-  #       path_input = input$upload_long$datapath,
-  #       eval_text = summary_long_react(),
-  #       eval_edu = education_long_react(),
-  #       eval_emp = employment_long_react(),
-  #       eval_inv = inv_position_long_react(),
-  #       eval_mem = membership_long_react(),
-  #       eval_ser = service_long_react(),
-  #       eval_pro = project_long_react(),
-  #       eval_awa = award_long_react(),
-  #       eval_tea = teaching_long_react(),
-  #       eval_sup = supervision_long_react(),
-  #       eval_ext = ext_sensor_long_react(),
-  #       eval_art = article_long_react(),
-  #       eval_boo = book_long_react()
-  #     )$then(
-  #       onFulfilled = function(value) {
-  #         showNotification(
-  #           paste("PDF file successfully generated"),
-  #           type = "message"
-  #         )
-  #         output$buildPDF_long <- downloadHandler(
-  #           filename = function() {
-  #             "cv_academic.pdf"
-  #           },
-  #           content = function(file) {
-  #             file.copy(value, file)
-  #           }
-  #         )
-  #       # return a download button
-  #       downloadButton("downloadPDF_long", "Download CV")
-  #       },
-  #       onRejected = function(error) {
-  #         showNotification(
-  #           error$message,
-  #           duration = NULL,
-  #           type = "error"
-  #         )
-  #         HTML("")
-  #       }
-  #     )$finally(remove_modal_spinner)
-  # 
-  #   })
-  # 
-  # })
-  # observeEvent("cv", {
-  # 
-  #   output$downloadBtn_long <- renderUI(HTML(""))
-  # 
-  # })
-  
   ### Show long CV
   output$pdfviewer_long <- renderUI({
     tags$iframe(style = 'height: 550px; width: 400px;', src = "cv_long.pdf")
