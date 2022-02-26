@@ -12,6 +12,9 @@ url_template <- "https://github.com/javiereliomedina/cv_app/blob/main/CV_data.xl
 # UI ----
 ui <- fluidPage(
   
+  add_busy_spinner(spin = "fading-circle",
+                   color = "#98c1d9",
+                   position = "full-page"),
   theme = shinythemes::shinytheme("cerulean"),
   
   tabsetPanel(
@@ -240,8 +243,6 @@ server <- function(input, output, session) {
     
     output$downloadBtn <- renderUI({
       
-      # add a spinner which blocks the UI
-      show_modal_spinner(spin = "fading-circle", color = "#98c1d9")
       # launch the PDF file generation
       render_cv_short(
         name_input = name_react(),
@@ -281,7 +282,7 @@ server <- function(input, output, session) {
           )
           HTML("")
         }
-      )$finally(remove_modal_spinner)
+      )
       
     })
     
@@ -299,21 +300,7 @@ server <- function(input, output, session) {
   })
   
 ## Full CV  ----
-  # name_long_react <- reactive({ input$name_long }) %>% bindEvent(input$buildPDF_long) 
-  # summary_long_react <- reactive({ input$summary_long }) %>% bindEvent(input$buildPDF_long)
-  # education_long_react <- reactive({ input$education_long }) %>% bindEvent(input$buildPDF_long)
-  # employment_long_react <- reactive({ input$employment_long }) %>% bindEvent(input$buildPDF_long)
-  # inv_position_long_react <- reactive({ input$inv_position_long }) %>% bindEvent(input$buildPDF_long)
-  # membership_long_react <- reactive({ input$membership_long }) %>% bindEvent(input$buildPDF_long)
-  # service_long_react <- reactive({ input$service_long }) %>% bindEvent(input$buildPDF_long)
-  # project_long_react <- reactive({ input$project_long }) %>% bindEvent(input$buildPDF_long)
-  # award_long_react <- reactive({ input$award_long }) %>% bindEvent(input$buildPDF_long)
-  # teaching_long_react <- reactive({ input$teaching_long }) %>% bindEvent(input$buildPDF_long)
-  # supervision_long_react <- reactive({ input$supervision_long }) %>% bindEvent(input$buildPDF_long)
-  # ext_sensor_long_react <- reactive({ input$ext_sensor_long }) %>% bindEvent(input$buildPDF_long)
-  # article_long_react <- reactive({ input$article_long }) %>% bindEvent(input$buildPDF_long)
-  # book_long_react <- reactive({ input$book_long }) %>% bindEvent(input$buildPDF_long)
-  # 
+   
   output$buildPDF_long <- downloadHandler(
     filename = "cv_full.pdf", 
     content = function(file) {
@@ -346,22 +333,6 @@ server <- function(input, output, session) {
         )
       file.copy(output, file)  
       })
-  
-  # cv_name = name_long_react(),
-  # data_path = input$upload_long$datapath,
-  # summary_long = summary_long_react(),
-  # education_long = education_long_react(),
-  # employment_long = employment_long_react(),
-  # inv_position_long = inv_position_long_react(),
-  # membership_long = membership_long_react(),
-  # service_long = service_long_react(),  
-  # project_long = project_long_react(),
-  # award_long = award_long_react(),
-  # teaching_long = teaching_long_react(),
-  # supervision_long = supervision_long_react(),
-  # ext_sensor_long = ext_sensor_long_react(),
-  # article_long = article_long_react(),
-  # book_long = book_long_react()
   
   ### Build CV
   # observeEvent(input$buildPDF_long, {
