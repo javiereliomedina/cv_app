@@ -63,9 +63,13 @@ ui <- fluidPage(
       
       mainPanel(
         
-        p("I have created this app for building an academic CV
-        from an excel file. It uses the CV template of",
-        a("pagedown,", href = "https://github.com/rstudio/pagedown.git"),
+        p("I have created this app for building academic CVs from an excel file.
+          The idea is to save all our profesional information in only one file,
+          which we can use later to get various CVs depending on our needs
+          (e.g. short vs. full academic CV). It uses CV templates from",
+        a("pagedown", href = "https://github.com/rstudio/pagedown.git"),
+        "and",
+        a("vitae,", href = "https://github.com/mitchelloharawild/vitae.git"),
         "and it is inspired on the",
         a("datadrivencv", href = "https://github.com/nstrayer/datadrivencv"),
         "package and a demo shiny app developed by",
@@ -81,8 +85,10 @@ ui <- fluidPage(
               and it may be more interesting if you apply for industrial jobs."),
         tags$li(strong("Full CV:"), "an extended academic CV with a list of publications."),
         br(),
-        p("However, both templates use the same excel file for importing the data.
-        You may find the excel template in", em("Download Excel template."))
+        p("Both templates, however, use the same excel file for importing the data,
+          which I think is very handy!!.
+          You may find the excel template in",
+          em("Download Excel template."))
         
       ),
       

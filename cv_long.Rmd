@@ -96,9 +96,10 @@ research_text <- "My research interests are:"
 \footnotesize 
 \rightline{\textcolor{darktext}{\textit{`r pull(filter(cv$text_blocks, loc == "short_description"), text)`}}}
 \normalsize
+\vspace{1.5cm}
 
 ```{r text-block-1, eval = eval_text}
-cat("\\vspace{0.5cm}\n# Career Summary\n")
+cat("\\vspace{-1cm}\n# Career Summary\n")
 
 cv %>% print_text_block("intro")
 ```
