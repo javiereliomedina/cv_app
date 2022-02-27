@@ -32,7 +32,7 @@ knitr::opts_chunk$set(
 
 library(tidyverse)
 library(readxl)
-source("cv_printing_functions.r")
+source("cv_short_printing_functions.r")
 
 # Read data (from csv)
 data_path <- params$data_path
