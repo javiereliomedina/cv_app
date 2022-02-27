@@ -206,7 +206,7 @@ ui <- fluidPage(
                             checkboxInput("supervision_long", "Supervision", TRUE),
                             checkboxInput("ext_sensor_long", "External sensor", TRUE),
                             checkboxInput("article_long", "Peer reviewed articles", TRUE),
-                            checkboxInput("book_long", "Books and book chapters", TRUE),
+                            checkboxInput("book_long", "Books and book chapters", TRUE)
                           )
                         ), 
                         
@@ -232,8 +232,7 @@ ui <- fluidPage(
 # Server ----
 server <- function(input, output, session) {
   
-  # Downloadable excel template for CV inputs ----
-  
+# Downloadable excel template for CV inputs ----
   output$downloadData <- downloadHandler(
     filename <- "cv_data_template.xlsx",
     content <- function(file) {
@@ -241,7 +240,7 @@ server <- function(input, output, session) {
     }
   )
   
-  # Short CV ----
+# Short CV ----
   name_react <- reactive({ input$name }) %>% bindEvent(input$buildPDF) 
   summary_react <- reactive({ input$summary }) %>% bindEvent(input$buildPDF)
   software_react <- reactive({ input$software }) %>% bindEvent(input$buildPDF)
@@ -258,9 +257,12 @@ server <- function(input, output, session) {
   observeEvent(input$buildPDF, {
     
     output$downloadBtn <- renderUI({
-      
+
       # launch the PDF file generation
       render_cv_short(
+
+      # launch the PDF file generation
+      render_cv(
         name_input = name_react(),
         path_input = input$upload$datapath,
         eval_text = summary_react(),
@@ -300,7 +302,9 @@ server <- function(input, output, session) {
         }
       )
       
-    })
+    )
+    
+  })
     
   })
   
@@ -315,7 +319,7 @@ server <- function(input, output, session) {
     tags$iframe(style = 'height: 550px; width: 400px;', src = "cv_short.pdf")
   })
   
-  # Full CV  ----
+# Full CV  ----
    
   # Get contact informations
   cv <- reactive({ create_cv_object(input$upload_long$datapath) })
@@ -366,6 +370,7 @@ server <- function(input, output, session) {
   output$pdfviewer_long <- renderUI({
     tags$iframe(style = 'height: 550px; width: 400px;', src = "cv_long.pdf")
   })
+  
 }
 
 # App ----
