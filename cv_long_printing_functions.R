@@ -23,9 +23,9 @@ create_cv_object <-  function(data_path) {
   
   # Read data from excel
   cv <- data_path %>% 
-    excel_sheets() %>% 
-    set_names() %>% 
-    map(read_excel, skip = 1, path = data_path)
+    readxl::excel_sheets() %>% 
+    purrr::set_names() %>% 
+    purrr::map(readxl::read_excel, skip = 1, path = data_path)
   
   cv
   

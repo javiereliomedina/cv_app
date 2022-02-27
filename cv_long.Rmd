@@ -21,13 +21,12 @@ params:
   key_1: NULL
   key_2: NULL
   key_3: NULL
-  address: "Haugesund (Norway)"
-  phone: "+47 4125 91 17"
-  email: "javiereliomedina@gmail.com"
-  website: "https://javierelio.netlify.app/"
-  github: "javiereliomedina"
-  linkedin: "javiereliomedina"
-  twitter: "Elio_Javi"
+  phone: NULL
+  email: NULL
+  website: NULL
+  github: NULL
+  linkedin: NULL
+  twitter: NULL
      
 name: "`r params$cv_name`" 
 surname: "`r params$cv_surname`"
@@ -67,7 +66,7 @@ library(kableExtra)
 
 source("cv_long_printing_functions.r")
 
-# Read data (from csv)
+# Read data (from excel)
 data_path <- params$data_path
 cv <- create_cv_object(data_path)
 cv_name <- params$cv_name
@@ -98,10 +97,8 @@ research_text <- "My research interests are:"
 \rightline{\textcolor{darktext}{\textit{`r pull(filter(cv$text_blocks, loc == "short_description"), text)`}}}
 \normalsize
 
-\vspace{0.5cm}
-
 ```{r text-block-1, eval = eval_text}
-cat("# Career Summary\n")
+cat("\\vspace{0.5cm}\n# Career Summary\n")
 
 cv %>% print_text_block("intro")
 ```
@@ -112,107 +109,87 @@ cat("My research interests are:")
 
 ```{r text-block-3, eval = eval_text}
 cv %>% print_reserch_intrerest()
+cat("\\vspace{1cm}")
 ```
+
 ```{r education, eval = eval_edu}
-cat("\n# Education\n")
+cat("\\vspace{-1cm}\n# Education\n")
 
 cv %>% print_section("education")
 
-cat("\\vspace{-1cm}")
 ```
 
 ```{r experience, eval=eval_emp}
-cat("\n# Experience\n")
+cat("\\vspace{-1cm}\n# Experience\n")
 
 cv %>% print_section("employment")
-
-cat("\\vspace{-1cm}")
 ```
 
 ```{r inv_positions, eval = eval_inv}
-cat("\n# Invited positions\n")
+cat("\\vspace{-1cm}\n# Invited positions\n")
 
 cv %>% print_section("inv_position")
-
-cat("\\vspace{-1cm}")
 ```
 
 ```{r memberships, eval=eval_mem}
-cat("\n# Professional memberships\n")
+cat("\\vspace{-1cm}\n# Professional memberships\n")
 
 cv %>% print_section("membership")
-
-cat("\\vspace{-1cm}")
 ```
 
 ```{r Services, eval=eval_ser}
-cat("\n# Professional services\n")
+cat("\\vspace{-1cm}\n# Professional services\n")
 
 cv %>% print_section("service")
-
-cat("\\vspace{-1cm}")
 ```
 
 ```{r funding, eval = eval_pro}
-cat("\n# Funding projects\n")
+cat("\\vspace{-1cm}\n# Funding projects\n")
 
 cv %>% print_section("project")
-
-cat("\\vspace{-1cm}")
 ```
 
 ```{r awards, eval=eval_awa}
-cat("\n# Honours and awards\n")
+cat("\\vspace{-1cm}\n# Honours and awards\n")
 
 cv %>% print_section("award")
-
-cat("\\vspace{-1cm}")
 ```
 
 ```{r tra-heading, eval = eval_tea | eval_sup | eval_ext}
-cat("# Training and teaching experience")
+cat("\\vspace{-1cm}\n# Training and teaching experience\n\\vspace{0.5cm}")
 ```
 
 ```{r lectures, eval=eval_tea}
-cat("\n## Lectures/Seminars\n")
+cat("\\vspace{-0.5cm}\n## Lectures/Seminars\n")
 
 cv %>% print_section("teaching")
-
-cat("\\vspace{-0.5cm}")
 ```
 
 ```{r supervision, eval = eval_sup}
-cat("\n## Supervision\n")
+cat("\\vspace{-0.5cm}\n## Supervision\n")
 
 cv %>% print_section("supervision")
 
-cat("\\vspace{-0.5cm}")
 ```
 
 ```{r ext-sensor, eval=eval_ext}
-cat("\n## External sensor\n")
+cat("\\vspace{-0.5cm}\n## External sensor\n")
 
 cv %>% print_section("ext_sensor")
-
-cat("\\vspace{-0.5cm}")
 ```
 
 ```{r pub-heading, eval = eval_art | eval_boo}
-cat("# Publications")
+cat("\\vspace{-1cm}\n# Publications\n\\vspace{0.5cm}")
 ```
 
 ```{r articles, eval = eval_art}
-cat("\n## Peer reviewed articles\n")
+cat("\\vspace{-0.5cm}\n## Peer reviewed articles\n")
 
 cv %>% print_publications("article", cv_surname)
-
-cat("\\vspace{-0.5cm}")
 ```
 
 ```{r books, eval=eval_boo}
-cat("\n## Books and book chapters\n")
+cat("\\vspace{-0.5cm}\n## Books and book chapters\n")
 
 cv %>% print_publications("book", cv_surname)
-
-cat("\\vspace{-0.5cm}")
 ```

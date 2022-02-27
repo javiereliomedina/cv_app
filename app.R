@@ -3,8 +3,10 @@ library(shinyFiles)
 library(bslib)
 library(promises)
 library(shinybusy)
+library(tidyverse)
 
 source("render_cv.r")
+source("cv_long_printing_functions.r")
 
 # link to Excel data
 url_template <- "https://github.com/javiereliomedina/cv_app/blob/main/CV_data.xlsx?raw=true"
@@ -309,6 +311,9 @@ server <- function(input, output, session) {
   
   # Full CV  ----
    
+  # Get contact informations
+  cv <- reactive({ create_cv_object(input$upload_long$datapath) })
+  
   output$buildPDF_long <- downloadHandler(
     filename = "cv_full.pdf", 
     content = function(file) {
@@ -340,7 +345,12 @@ server <- function(input, output, session) {
                       supervision_long = input$supervision_long,
                       ext_sensor_long = input$ext_sensor_long,
                       article_long = input$article_long,
-                      book_long = input$book_long
+                      book_long = input$book_long,
+                      email = pull(filter(cv()$contact_info, loc == "email"), user),
+                      website = pull(filter(cv()$contact_info, loc == "website"), user), 
+                      github =  pull(filter(cv()$contact_info, loc == "github"), user), 
+                      linkedin = pull(filter(cv()$contact_info, loc == "linkedin"), user),
+                      twitter = pull(filter(cv()$contact_info, loc == "twitter"), user) 
                       )
         )
       file.copy(output, file)  
