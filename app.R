@@ -264,9 +264,6 @@ server <- function(input, output, session) {
 
       # launch the PDF file generation
       render_cv_short(
-
-      # launch the PDF file generation
-      render_cv(
         name_input = name_react(),
         path_input = input$upload$datapath,
         eval_text = summary_react(),
@@ -305,8 +302,6 @@ server <- function(input, output, session) {
           HTML("")
         }
       )
-      
-    )
     
   })
     
@@ -332,7 +327,7 @@ server <- function(input, output, session) {
     filename = "cv_full.pdf", 
     content = function(file) {
       
-      # Temporary directory
+      # # Temporary directory
       tempCV <- file.path(tempdir(), "cv_long.Rmd")
       file.copy("cv_long.Rmd", tempCV, overwrite = TRUE)
       tempPrint <- file.path(tempdir(), "cv_long_printing_functions.r")
