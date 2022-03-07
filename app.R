@@ -88,7 +88,11 @@ ui <- fluidPage(
         p("Both templates, however, use the same excel file for importing the data,
           which I think is very handy!!.
           You may find the excel template in",
-          em("Download Excel template."))
+          em("Download Excel template.")),
+        br(),
+        p("The app is free of use but if you would like to support me, you can do that on:",
+        a("buymeacoffee", href = "https://www.buymeacoffee.com/javierelio")
+        )
         
       ),
       
