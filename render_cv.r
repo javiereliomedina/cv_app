@@ -47,8 +47,8 @@ render_cv_short <- function(name_input,
                                            teaching = eval_tea,
                                            publications = eval_pub,
                                            packages = eval_pck,
-                                           apps = eval_app
-                             ))
+                                           apps = eval_app),
+                             encoding = "UTF-8")
   pagedown::chrome_print(input = input,
                          output = tempfile(fileext = ".pdf"),
                          extra_args = chrome_extra_args(),

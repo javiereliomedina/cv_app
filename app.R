@@ -360,7 +360,8 @@ server <- function(input, output, session) {
                       github =  pull(filter(cv()$contact_info, loc == "github"), user), 
                       linkedin = pull(filter(cv()$contact_info, loc == "linkedin"), user),
                       twitter = pull(filter(cv()$contact_info, loc == "twitter"), user) 
-                      )
+                      ),
+        encoding = "UTF-8"
         )
       file.copy(output, file)  
       })
