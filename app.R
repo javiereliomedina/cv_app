@@ -91,9 +91,37 @@ ui <- fluidPage(
           em("Download Excel template.")),
         br(),
         p("The app is free of use but if you would like to support me, you can do that on:",
-        a("buymeacoffee", href = "https://www.buymeacoffee.com/javierelio")
-        )
+          br(), br(),
+          a(HTML(
+            "<a href=\"https://www.buymeacoffee.com/javierelio\">
+            <img src=\"https://img.buymeacoffee.com/button-api/?
+            text=Buy me a coffee&
+            emoji=&
+            slug=javierelio&
+            button_colour=FF5F5F&
+            font_colour=ffffff&
+            font_family=Cookie&
+            outline_colour=000000&
+            coffee_colour=FFDD00\" /></a>"
+            )
+            )
+          ),
         
+        a(HTML(
+          "<script data-name=\"BMC-Widget\"
+          data-cfasync=\"false\" 
+          src=\"https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js\" 
+          data-id=\"javierelio\" 
+          data-description=\"Support me on Buy me a coffee!\"
+          data-message=\"\" 
+          data-color=\"#ff813f\" 
+          data-position=\"Right\" 
+          data-x_margin=\"18\" 
+          data-y_margin=\"18\">
+          </script>"
+          )
+          ),
+          
       ),
       
       position = "right"
