@@ -7,6 +7,7 @@ library(tidyverse)
 
 source("render_cv.r")
 source("cv_long_printing_functions.r")
+long_cv_templates <- c("awesomecv", "hyndman", "moderncv")
 
 # link to Excel data
 url_template <- "https://github.com/javiereliomedina/cv_app/blob/main/CV_data.xlsx?raw=true"
@@ -242,6 +243,8 @@ ui <- fluidPage(
                           )
                         ), 
                         
+                        selectInput("templates", "Select template format", long_cv_templates),
+                        
                         p("Now you can build your CV. If everything works fine, you would get
              a PDF with your full academic CV. It should be something similar to mine!!"
                         ),
@@ -364,6 +367,7 @@ server <- function(input, output, session) {
       # Knit the document
       output <- output <- rmarkdown::render(
         input = tempCV,
+        output_format = paste0("vitae::", input$templates),
         params = list(cv_name = input$name_long,
                       cv_surname = input$surname_long,
                       key_1 = input$key_1,
