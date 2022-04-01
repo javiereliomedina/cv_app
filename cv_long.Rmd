@@ -1,6 +1,7 @@
 ---
-output:
+output: 
   vitae::awesomecv
+
 params:
   cv_name: "Javier" 
   cv_surname: "Elio"
@@ -18,15 +19,16 @@ params:
   ext_sensor_long: TRUE
   article_long: TRUE
   book_long: TRUE
-  key_1: NULL
-  key_2: NULL
-  key_3: NULL
-  phone: NULL
-  email: NULL
-  website: NULL
-  github: NULL
-  linkedin: NULL
-  twitter: NULL
+  key_1: "Researcher"
+  key_2: "Environmental Sciences"
+  key_3: "Geoinformatics"
+  address: NULL
+  phone: +45 9940 2529
+  email: "javiereliomedina@gmail.com"
+  www: javierelio.netlify.app
+  github: javiereliomedina
+  linkedin: javiereliomedina
+  twitter: elio_javi
      
 name: "`r params$cv_name`" 
 surname: "`r params$cv_surname`"
@@ -35,7 +37,7 @@ position: "`r params$key_1` | `r params$key_2` | `r params$key_3`"
 address: "`r params$address`"
 phone: "`r params$phone`"
 email: "`r params$email`"
-website: "`r params$website`"
+www: "`r params$website`"
 github: "`r params$github`"
 linkedin: "`r params$linkedin`"
 twitter: "`r params$twitter`"
@@ -63,6 +65,7 @@ library(tidyverse)
 library(readxl)
 library(knitr)
 library(kableExtra)
+library(vitae)
 
 source("cv_long_printing_functions.r")
 
