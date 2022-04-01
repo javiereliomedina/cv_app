@@ -25,7 +25,7 @@ params:
   address: NULL
   phone: +45 9940 2529
   email: "javiereliomedina@gmail.com"
-  www: javierelio.netlify.app
+  website: javierelio.netlify.app
   github: javiereliomedina
   linkedin: javiereliomedina
   twitter: elio_javi
@@ -37,7 +37,7 @@ position: "`r params$key_1` | `r params$key_2` | `r params$key_3`"
 address: "`r params$address`"
 phone: "`r params$phone`"
 email: "`r params$email`"
-www: "`r params$website`"
+website: "`r params$website`"
 github: "`r params$github`"
 linkedin: "`r params$linkedin`"
 twitter: "`r params$twitter`"
