@@ -102,7 +102,7 @@ research_text <- "My research interests are:"
 \vspace{1.5cm}
 
 ```{r text-block-1, eval = eval_text}
-cat("\\vspace{-1cm}\n# Career Summary\n")
+cat("\\vspace{-0.75cm}\n# Career Summary\n")
 cv %>% print_text_block("intro")
 ```
 
@@ -112,46 +112,46 @@ cat("My research interests are:")
 
 ```{r text-block-3, eval = eval_text}
 cv %>% print_reserch_intrerest()
-cat("\\vspace{1cm}")
+cat("\\vspace{0.75cm}")
 ```
 
 ```{r education, eval = eval_edu}
-cat("\\vspace{-1cm}\n# Education\n")
+cat("\\vspace{-0.75cm}\n# Education\n")
 cv %>% print_section("education")
 ```
 
 ```{r experience, eval=eval_emp}
-cat("\\vspace{-1cm}\n# Experience\n")
+cat("\\vspace{-0.75cm}\n# Experience\n")
 cv %>% print_section("employment")
 ```
 
 ```{r inv_positions, eval = eval_inv}
-cat("\\vspace{-1cm}\n# Invited positions\n")
+cat("\\vspace{-0.75cm}\n# Invited positions\n")
 cv %>% print_section("inv_position")
 ```
 
 ```{r memberships, eval=eval_mem}
-cat("\\vspace{-1cm}\n# Professional memberships\n")
+cat("\\vspace{-0.75cm}\n# Professional memberships\n")
 cv %>% print_section("membership")
 ```
 
 ```{r Services, eval=eval_ser}
-cat("\\vspace{-1cm}\n# Professional services\n")
+cat("\\vspace{-0.75cm}\n# Professional services\n")
 cv %>% print_section("service")
 ```
 
 ```{r funding, eval = eval_pro}
-cat("\\vspace{-1cm}\n# Funding projects\n")
+cat("\\vspace{-0.75cm}\n# Funding projects\n")
 cv %>% print_section("project")
 ```
 
 ```{r awards, eval=eval_awa}
-cat("\\vspace{-1cm}\n# Honours and awards\n")
+cat("\\vspace{-0.75cm}\n# Honours and awards\n")
 cv %>% print_section("award")
 ```
 
 ```{r tra-heading, eval = eval_tea | eval_sup | eval_ext}
-cat("\\vspace{-1cm}\n# Training and teaching experience\n\\vspace{0.5cm}")
+cat("\\vspace{-0.75cm}\n# Training and teaching experience\n\\vspace{0.5cm}")
 ```
 
 ```{r lectures, eval=eval_tea}
@@ -170,7 +170,7 @@ cv %>% print_section("ext_sensor")
 ```
 
 ```{r pub-heading, eval = eval_art | eval_boo}
-cat("\\vspace{-1cm}\n# Publications\n\\vspace{0.5cm}")
+cat("\\vspace{-0.75cm}\n# Publications\n\\vspace{0.5cm}")
 ```
 
 ```{r articles, eval = eval_art}
