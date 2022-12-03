@@ -1,0 +1,91 @@
+---
+output: 
+  vitae::awesomecv
+
+date: "`r format(Sys.time(), '%B, %Y')`"
+
+params:
+  cv_name: NULL 
+  cv_surname: NULL
+  key_1: NULL
+  key_2: NULL
+  key_3: NULL
+  address: NULL
+  phone: NULL
+  email: NULL
+  website: NULL
+  github: NULL
+  linkedin: NULL
+  twitter: NULL
+  company: NULL
+  company_address: NULL
+  company_city: NULL
+  company_position: NULL
+  company_manager: NULL
+  text1: NULL
+  text2: NULL
+  
+name: "`r params$cv_name`" 
+surname: "`r params$cv_surname`"
+position: "`r params$key_1` | `r params$key_2` | `r params$key_3`"
+address: "`r params$address`"
+phone: "`r params$phone`"
+email: "`r params$email`"
+website: "`r params$website`"
+github: "`r params$github`"
+linkedin: "`r params$linkedin`"
+twitter: "`r params$twitter`"
+
+header-includes:
+  - \usepackage{colortbl}
+  - \definecolor{darktext}{HTML}{414141}
+  - \definecolor{text}{HTML}{333333}
+  - \definecolor{graytext}{HTML}{5D5D5D}
+  - \definecolor{lighttext}{HTML}{999999}
+---
+
+```{r setup, include = FALSE}
+# - \photo[circle, noedge, left]{photo.png}
+
+knitr::opts_chunk$set(
+  results = 'asis', 
+  echo = FALSE,
+  message = FALSE, 
+  warning = FALSE)
+
+library(vitae)
+library(knitr)
+library(kableExtra)
+library(vitae)
+```
+
+\vspace{1.25cm} \rightline{\textcolor{graytext}{\today}}
+
+\vspace{-0.5cm}  **`r params$company`**    \
+\textcolor{graytext}{`r params$company_address`}     \
+\textcolor{graytext}{`r params$company_city`}             
+
+\vspace{0.25cm}\textbf{\underline{`r params$company_position`}}  
+\vspace{0.15cm} \textcolor{graytext}{`r paste0("Dear " , params$company_manager, ",")`}
+
+```{r text-block-1}
+cat("\\vspace{0.5cm}\n# About me\n")
+```
+
+`r params$text1`
+
+```{r text-block-2}
+cat("\\vspace{0.5cm}\n# Personal vision of the position\n")
+``` 
+
+`r params$text2`
+
+
+\vspace*{0.5cm}
+Sincerely,
+
+\vspace*{0.5cm}
+\textbf{`r paste(params$cv_name, params$cv_surname)`}
+
+\vspace*{0.5cm} Attached: Curriculum Vitae
+
