@@ -4,10 +4,15 @@ library(bslib)
 library(promises)
 library(shinybusy)
 library(tidyverse)
+library(shinyjs)
+
 
 source("render_cv.r")
-source("cv_long_printing_functions.r")
+source("cv_long_printing_functions.R")
 long_cv_templates <- c("awesomecv", "hyndman", "moderncv")
+
+# Approx. number of words
+max <- 1250
 
 # link to Excel data
 url_template <- "https://github.com/javiereliomedina/cv_app/blob/main/CV_data.xlsx?raw=true"
@@ -80,15 +85,19 @@ ui <- fluidPage(
         "or",
         a("linkedin", href = "https://www.linkedin.com/in/javiereliomedina/"),
         "pages."),
-        p("There are two panels with diferent templates depending on the CV you would like
-        to generate."),
-        tags$li(strong("2-pages CV:"), "the template is optimised for a 2 pages document 
-              and it may be more interesting if you apply for industrial jobs."),
-        tags$li(strong("Full CV:"), "an extended academic CV with a list of publications."),
+        p("There are three panels with diferent templates depending on the document you would like
+        to get"),
+        tags$li(strong("Cover Letter:"), "generates a cover letter with two subsections. 
+                One to speak about us and why we are the best candidate, and another to explain
+                our vision of the position and what we plan to do in it."),
+        tags$li(strong("2-pages CV:"), "generates a 2 pages document. I think it 
+                may be more interesting if you apply for industrial jobs. Please,
+                let me know what do you think!!"),
+        tags$li(strong("Full CV:"), "generates an extended academic CV with a list
+                of publications."),
         br(),
-        p("Both templates, however, use the same excel file for importing the data,
-          which I think is very handy!!.
-          You may find the excel template in",
+        p("Both CV templates, however, use the same excel file for importing the data,
+          which I think is very handy!! You may find the excel template in",
           em("Download Excel template.")),
         br(),
         p("The app is free of use but if you would like to support me, you can do that on:",
@@ -131,6 +140,67 @@ ui <- fluidPage(
       
     ),
     
+    # Cover letter ----
+    tabPanel("Cover letter",
+             
+             titlePanel("Cover letter"),
+             
+             sidebarLayout(
+               
+               sidebarPanel(
+                 
+                 h1("Your data"),
+                 textInput("name_cover_letter", label = "", "Name"),
+                 textInput("surname_cover_letter",label = "", "Surname"),
+                 textInput("address",label = "", "Address"),
+                 textInput("phone",label = "", "Phone"),
+                 textInput("email",label = "", "Email"),
+                 textInput("github",label = "", "Github"),
+                 textInput("linkedin",label = "", "Linkedin"),
+                 textInput("twitter",label = "", "Twitter"),
+                 textInput("key_1", label = "", "Keyword describing you or your research interest"),
+                 textInput("key_2", label = "", "Keyword describing you or your research interest"),
+                 textInput("key_3", label = "", "Keyword describing you or your research interest"),
+                 
+                 h1("Employer information"), 
+                 textInput("company", label = "", "Company"),
+                 textInput("company_address", label = "", "Address"),
+                 textInput("company_city", label = "", "City (Country)"),
+                 textInput("company_responsable", label = "", "Name of the hiring responsable"),
+                 textInput("company_position", label = "", "Title of the position")
+                 
+               ),
+               
+               mainPanel(
+                 
+                 column(6,
+                        
+                        uiOutput("download_cover_letter"),
+                        
+                        useShinyjs(), 
+                        textAreaInput("text1","About me"),
+                        uiOutput("text1"),
+                        p(), 
+                        
+                        textAreaInput("text2","Personal vision of the position"),
+                        uiOutput("text2"),
+                        p(), 
+                        
+                        p("Now you can build the document. If everything works fine, you would get
+             a PDF with your cover letter. It should be something similar to this document!!"
+                        ),
+                        
+                        downloadButton("buildPDF_cover_letter", "Build PDF document")
+                        
+                 ),
+                 
+                 column(6, htmlOutput("pdfviewer_cover_letter"))
+                 
+               )
+                 
+             )
+             
+    ),
     # Short CV (2-pages) ----
     tabPanel("2-pages CV",
              
@@ -172,7 +242,7 @@ ui <- fluidPage(
                      )
                    ), 
                    
-                   p("Now you can build your CV. If everything works fine, you would get
+                   p("Now you can build the document. If everything works fine, you would get
              a message indicating that the PDF has been generated and a download
              button would appear to save it. It should be something similar to mine!!"
                    ),
@@ -245,7 +315,7 @@ ui <- fluidPage(
                         
                         selectInput("templates", "Select template format", long_cv_templates),
                         
-                        p("Now you can build your CV. If everything works fine, you would get
+                        p("Now you can build the document. If everything works fine, you would get
              a PDF with your full academic CV. It should be something similar to mine!!"
                         ),
              
@@ -266,7 +336,7 @@ ui <- fluidPage(
 
 # Server ----
 server <- function(input, output, session) {
-  
+
 # Downloadable excel template for CV inputs ----
   output$downloadData <- downloadHandler(
     filename <- "cv_data_template.xlsx",
@@ -274,6 +344,55 @@ server <- function(input, output, session) {
       httr::GET(url_template, httr::write_disk(path = file))
     }
   )
+  
+# Cover letter ----
+  output$text1 <- reactive({ paste0('only ', max-nchar(input$text1), ' characters left' ) })
+  runjs(sprintf("$('#text').attr('maxlength', %d)", max))
+  
+  output$text2 <- reactive({ paste0('only ', max-nchar(input$text2), ' characters left' ) })
+  runjs(sprintf("$('#text').attr('maxlength', %d)", max))
+  
+  output$buildPDF_cover_letter <- downloadHandler(
+    filename = "cover_letter.pdf", 
+    content = function(file) {
+      
+      # Temporary directory
+      tempCV <- file.path(tempdir(), "CV_Cover_letter.Rmd")
+      file.copy("CV_Cover_letter.Rmd", tempCV, overwrite = TRUE)
+      # tempPrint <- file.path(tempdir(), "cv_long_printing_functions.r")
+      # file.copy("cv_long_printing_functions.r", tempPrint, overwrite = TRUE )
+      
+      # Knit the document
+      output <- output <- rmarkdown::render(
+        input = tempCV,
+        output_format = paste0("vitae::", input$templates),
+        params = list(cv_name = input$name_cover_letter,
+                      cv_surname = input$surname_cover_letter,
+                      key_1 = input$key_1,
+                      key_2 = input$key_2,
+                      key_3 = input$key_3,
+                      email = input$email,
+                      phone = input$phone,
+                      github =  input$github, 
+                      linkedin = input$linkedin,
+                      twitter = input$twitter,
+                      text1 = input$text1,
+                      text2 = input$text2,
+                      company = input$company,
+                      company_address = input$company_address,
+                      company_city = input$company_city,
+                      company_position = input$company_position,
+                      company_responsable = input$company_responsable
+        ),
+        encoding = "UTF-8"
+      )
+      file.copy(output, file)  
+    })
+  
+  ### Show long CV
+  output$pdfviewer_cover_letter <- renderUI({
+    tags$iframe(style = 'height: 550px; width: 400px;', src = "cv_cover_letter.pdf")
+  })
   
 # Short CV ----
   name_react <- reactive({ input$name }) %>% bindEvent(input$buildPDF) 
@@ -358,7 +477,7 @@ server <- function(input, output, session) {
     filename = "cv_full.pdf", 
     content = function(file) {
       
-      # # Temporary directory
+      # Temporary directory
       tempCV <- file.path(tempdir(), "cv_long.Rmd")
       file.copy("cv_long.Rmd", tempCV, overwrite = TRUE)
       tempPrint <- file.path(tempdir(), "cv_long_printing_functions.r")
