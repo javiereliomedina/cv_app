@@ -166,7 +166,7 @@ ui <- fluidPage(
                  textInput("company", label = "", "Company"),
                  textInput("company_address", label = "", "Address"),
                  textInput("company_city", label = "", "City (Country)"),
-                 textInput("company_responsable", label = "", "Name of the hiring responsable"),
+                 textInput("company_manager", label = "", "Name of the hiring manager"),
                  textInput("company_position", label = "", "Title of the position")
                  
                ),
@@ -382,7 +382,7 @@ server <- function(input, output, session) {
                       company_address = input$company_address,
                       company_city = input$company_city,
                       company_position = input$company_position,
-                      company_responsable = input$company_responsable
+                      company_manager = input$company_manager
         ),
         encoding = "UTF-8"
       )

@@ -21,7 +21,7 @@ params:
   company_address: NULL
   company_city: NULL
   company_position: NULL
-  company_responsable: NULL
+  company_manager: NULL
   text1: NULL
   text2: NULL
   
@@ -66,7 +66,7 @@ library(vitae)
 \textcolor{graytext}{`r params$company_city`}             
 
 \vspace{0.25cm}\textbf{\underline{`r params$company_position`}}  
-\vspace{0.15cm} \textcolor{graytext}{`r paste0("Dear " , params$company_responsable, ",")`}
+\vspace{0.15cm} \textcolor{graytext}{`r paste0("Dear " , params$company_manager, ",")`}
 
 ```{r text-block-1}
 cat("\\vspace{0.5cm}\n# About me\n")
