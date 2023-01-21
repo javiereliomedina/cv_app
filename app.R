@@ -276,9 +276,9 @@ ui <- fluidPage(
                  textInput("surname_long", "Add your surname"),
                  fileInput("upload_long", "Upload the excel file with your data", accept = c(".xlsx")),
                  p(strong("Add 3 keywords describing you or your research interest")),
-                 textInput("key_1", ""),
-                 textInput("key_2", ""),
-                 textInput("key_3", "")
+                 textInput("key_1lcv", ""),
+                 textInput("key_2lcv", ""),
+                 textInput("key_3lcv", "")
                  
                ),
                
@@ -489,9 +489,9 @@ server <- function(input, output, session) {
         output_format = paste0("vitae::", input$templates),
         params = list(cv_name = input$name_long,
                       cv_surname = input$surname_long,
-                      key_1 = input$key_1,
-                      key_2 = input$key_2,
-                      key_3 = input$key_3,
+                      key_1lcv = input$key_1lcv,
+                      key_2lcv = input$key_2lcv,
+                      key_3lcv = input$key_3lcv,
                       data_path = input$upload_long$datapath,
                       summary_long = input$summary_long,
                       education_long = input$education_long,

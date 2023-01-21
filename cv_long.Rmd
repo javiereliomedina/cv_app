@@ -19,9 +19,9 @@ params:
   ext_sensor_long: TRUE
   article_long: TRUE
   book_long: TRUE
-  key_1: "Researcher"
-  key_2: "Environmental Sciences"
-  key_3: "Geoinformatics"
+  key_1lcv: NULL
+  key_2lcv: NULL
+  key_3lcv: NULL
   address: NULL
   phone: +45 9940 2529
   email: "javiereliomedina@gmail.com"
@@ -33,7 +33,7 @@ params:
 name: "`r params$cv_name`" 
 surname: "`r params$cv_surname`"
 date: "`r format(Sys.time(), '%B, %Y')`"
-position: "`r params$key_1` | `r params$key_2` | `r params$key_3`"
+position: "`r params$key_1lcv` | `r params$key_2lcv` | `r params$key_3lcv`"
 address: "`r params$address`"
 phone: "`r params$phone`"
 email: "`r params$email`"
@@ -65,15 +65,9 @@ library(readxl)
 library(knitr)
 library(kableExtra)
 library(vitae)
-```
 
-
-```{r, include = FALSE}
 source("cv_long_printing_functions.r")
-```
 
-
-```{r, include = FALSE}
 # Read data (from excel)
 data_path <- params$data_path
 cv <- create_cv_object(data_path)
