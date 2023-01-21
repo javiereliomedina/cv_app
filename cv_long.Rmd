@@ -53,7 +53,6 @@ header-includes:
 ---
 
 ```{r setup, include = FALSE}
-
 knitr::opts_chunk$set(
   results = 'asis', 
   echo = FALSE,
@@ -66,9 +65,15 @@ library(readxl)
 library(knitr)
 library(kableExtra)
 library(vitae)
+```
 
+
+```{r, include = FALSE}
 source("cv_long_printing_functions.r")
+```
 
+
+```{r, include = FALSE}
 # Read data (from excel)
 data_path <- params$data_path
 cv <- create_cv_object(data_path)
